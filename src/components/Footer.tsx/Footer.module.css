@@ -1,0 +1,32 @@
+.footer {
+	background-color: violet;
+
+	width: 100%;
+}
+.container {
+	height: 60px;
+	margin: 0 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+}
+
+.github {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+.github a {
+	color: darkviolet;
+	font-weight: 600;
+}
+
+.github:hover {
+	text-decoration: underline;
+	color: darkviolet;
+}

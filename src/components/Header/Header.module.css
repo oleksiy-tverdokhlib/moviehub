@@ -1,0 +1,49 @@
+.header {
+	background-color: violet;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+.container {
+	width: 1200px;
+	height: 60px;
+	margin: 0 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.logout {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.username {
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+.currentUser,
+.logout {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 25px;
+}
+.logoutBtn {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	cursor: pointer;
+	color: darkviolet;
+	font-weight: 600;
+}
+.logoutBtn:hover {
+	text-decoration: underline;
+}
+
+a {
+	color: black;
+}
