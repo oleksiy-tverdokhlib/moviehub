@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useAppDispatch } from '../../features/store'
 import { logout } from '../../features/user/userSlice'
-import type { AuthStatus } from '../../types/movies'
+import type { AuthStatus } from '../../types/moviesTypes'
 import styles from './Header.module.css'
-
-
+import Icon from '../Icon/Icon'
 
 const Header = ({ isAuth }: AuthStatus) => {
 	const dispatch = useAppDispatch()
@@ -33,9 +32,7 @@ const Header = ({ isAuth }: AuthStatus) => {
 							<span className={styles.username}> {parsedName}</span>
 							<span className={styles.logoutBtn} onClick={handleLogout}>
 								<span>Logout</span>
-								<svg className={styles.logoutIcon}>
-									<use href="/sprite.svg#logout" />
-								</svg>
+								<Icon id={'logout'} />
 							</span>
 						</div>
 					)}

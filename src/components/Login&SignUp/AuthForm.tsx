@@ -1,9 +1,9 @@
-import type { IFormData } from '../../types/user'
+import type { IFormData } from '../../types/userTypes'
 import { useAuthForm } from '../../utils/useAuthForm'
 import TextInput from '../TextInput/TextInput'
 import styles from './Login&SignUp.module.css'
 
-interface AuthModeProps {
+export interface AuthModeProps {
 	mode: 'login' | 'signup'
 }
 
@@ -28,7 +28,7 @@ const signUpFields: AuthField[] = [
 const AuthForm = ({ mode }: AuthModeProps) => {
 	const fields = mode === 'login' ? loginFields : signUpFields
 
-	const { data, handleChange, handleSubmit } = useAuthForm(mode)
+	const { data, handleChange, handleSubmit } = useAuthForm({ mode })
 
 	return (
 		<div className={styles.loginContainer}>

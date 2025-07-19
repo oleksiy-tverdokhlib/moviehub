@@ -6,7 +6,8 @@ import {
 	useUpdateMovieMutation,
 } from '../services/movies'
 import { ROUTES } from './constants'
-import type { MovieData } from '../types/movies'
+import type { MovieData } from '../types/moviesTypes'
+import type { MovieModeProps } from '../components/Movies/MovieDataForm'
 
 const defaultData: MovieData = {
 	title: '',
@@ -15,7 +16,7 @@ const defaultData: MovieData = {
 	actors: [''],
 }
 
-export const useMovieForm = (mode: 'edit' | 'create') => {
+export const useMovieForm = ({ mode }: MovieModeProps) => {
 	const navigate = useNavigate()
 	const { id } = useParams()
 	const [formData, setFormData] = useState<MovieData>(defaultData)

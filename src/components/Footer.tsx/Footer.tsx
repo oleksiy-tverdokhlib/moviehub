@@ -1,3 +1,4 @@
+import Icon from '../Icon/Icon'
 import styles from './Footer.module.css'
 
 const Footer = () => {
@@ -5,14 +6,14 @@ const Footer = () => {
 		<footer className={styles.footer}>
 			<div className={styles.container}>
 				<p>© {new Date().getFullYear()} MoviesHub. All rights reserved.</p>
-				<div className={styles.github}>
-					<a href="https://github.com/oleksiy-tverdokhlib/moviehub">
-						oleksiy-tverdokhlib
-					</a>
-					<svg className={styles.gitIcon}>
-						<use href="/sprite.svg#github" />
-					</svg>
-				</div>
+				<a
+					href={'https://github.com/oleksiy-tverdokhlib/moviehub'}
+					className={styles.github}
+					target="_blank"
+				>
+					<span>oleksiy-tverdokhlib</span>
+					<Icon id={'github'} />
+				</a>
 			</div>
 		</footer>
 	)

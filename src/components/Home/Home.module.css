@@ -9,3 +9,9 @@
 	display: flex;
 	justify-content: space-between;
 }
+.sortIcon {
+	width: 30px;
+	height: 30px;
+	fill: currentColor;
+	color: white;
+}

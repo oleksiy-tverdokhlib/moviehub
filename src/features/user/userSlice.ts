@@ -2,7 +2,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { BASE_URL } from '../../utils/constants'
-import type { ILogin, ISignUp } from '../../types/user'
+import type { ILogin, ISignUp } from '../../types/userTypes'
 
 interface LoginResponse {
 	token: string

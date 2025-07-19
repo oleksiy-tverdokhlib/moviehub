@@ -62,6 +62,10 @@
 }
 
 .return {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
 	font-size: 1.3rem;
 	cursor: pointer;
 	transition: 0.3s;
@@ -70,4 +74,10 @@
 }
 .return:hover {
 	color: black;
+}
+
+.returnIcon {
+	width: 25px;
+	height: 25px;
+	fill: currentColor;
 }

@@ -4,8 +4,9 @@ import ActorList from '../ActorList/ActorList'
 import TextInput from '../TextInput/TextInput'
 import styles from './Movie.module.css'
 import { ROUTES } from '../../utils/constants'
+import Icon from '../Icon/Icon'
 
-interface MovieModeProps {
+export interface MovieModeProps {
 	mode: 'edit' | 'create'
 }
 
@@ -18,7 +19,7 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 		handleAddActor,
 		handleDeleteActor,
 		handleSubmit,
-	} = useMovieForm(mode)
+	} = useMovieForm({ mode })
 
 	const handleNavigete = () => {
 		navigate(ROUTES.HOME)
@@ -26,9 +27,10 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 
 	return (
 		<form className={styles.movieForm} onSubmit={handleSubmit}>
-			<span className={styles.return} onClick={handleNavigete}>
-				&lt;- Return
-			</span>
+			<div className={styles.return} onClick={handleNavigete}>
+				<Icon id={'arrow-left'} />
+				<span>Return</span>
+			</div>
 
 			<h3>{mode === 'edit' ? 'Edit Movie' : 'Add New Movie'}</h3>
 

@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { RootState } from '../features/store'
-import type { Movie, MovieData, MovieListResponse, MovieResponse, Status } from '../types/movies'
+import type {
+	Movie,
+	MovieData,
+	MovieListResponse,
+	MovieResponse,
+	Status,
+} from '../types/moviesTypes'
 import { BASE_URL } from '../utils/constants'
 
 export const movieApi = createApi({

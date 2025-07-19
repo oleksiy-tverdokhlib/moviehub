@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import type { AuthModeProps } from '../components/Login&SignUp/AuthForm'
 import { useAppDispatch } from '../features/store'
 import { createUser, loginUser } from '../features/user/userSlice'
+import type { IFormData, ILogin, ISignUp } from '../types/userTypes'
 import { ROUTES } from './constants'
-import type { IFormData, ILogin, ISignUp } from '../types/user'
 
-export const useAuthForm = (type: 'login' | 'signup') => {
+export const useAuthForm = ({ mode }: AuthModeProps) => {
 	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 
@@ -34,7 +35,7 @@ export const useAuthForm = (type: 'login' | 'signup') => {
 			return
 		}
 
-		if (type === 'signup') {
+		if (mode === 'signup') {
 			if (data.password !== data.confirmPassword) {
 				alert(`Passwords don't match`)
 				return

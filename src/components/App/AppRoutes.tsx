@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import type { AuthStatus } from '../../types/movies'
+import type { AuthStatus } from '../../types/moviesTypes'
 import { ROUTES } from '../../utils/constants'
 import Home from '../Home/Home'
 import AuthForm from '../Login&SignUp/AuthForm'

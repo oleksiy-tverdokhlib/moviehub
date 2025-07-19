@@ -1,8 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useDeleteMovieByIdMutation } from '../../services/movies'
-import type { Movie } from '../../types/movies'
+import type { Movie } from '../../types/moviesTypes'
 import { ROUTES } from '../../utils/constants'
 import styles from './Movie.module.css'
+import Icon from '../Icon/Icon'
 
 const MovieItem = (props: Movie) => {
 	const [deleteMovieById] = useDeleteMovieByIdMutation()
@@ -32,13 +33,8 @@ const MovieItem = (props: Movie) => {
 			</Link>
 
 			<div className={styles.actionBtns}>
-				<svg className={styles.editIcon} onClick={handleRedirectEdit}>
-					<use href="/sprite.svg#edit" />
-				</svg>
-
-				<svg className={styles.deleteIcon} onClick={handleDelete}>
-					<use href="/sprite.svg#delete" />{' '}
-				</svg>
+				<Icon id={'edit'} onClick={handleRedirectEdit} />
+				<Icon id={'delete'} onClick={handleDelete} />
 			</div>
 		</div>
 	)

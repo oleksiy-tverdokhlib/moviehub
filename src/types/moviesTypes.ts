@@ -15,7 +15,7 @@ export interface Movie {
 	id: number
 	title: string
 	year: number
-	format: 'VHS' | 'DVD' | 'Blu-Ray' | string
+	format: 'VHS' | 'DVD' | 'Blu-Ray'
 	actors: Actor[]
 	createdAt: string
 	updatedAt: string

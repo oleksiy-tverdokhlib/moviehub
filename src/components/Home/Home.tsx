@@ -1,15 +1,22 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetMoviesListQuery } from '../../services/movies'
+import type { Movie } from '../../types/moviesTypes'
+import { ROUTES } from '../../utils/constants'
 import MovieFileForm from '../Movies/MovieFileForm'
 import MovieItem from '../Movies/MovieItem'
 import styles from './Home.module.css'
-import { ROUTES } from '../../utils/constants'
-import type { Movie } from '../../types/movies'
+import Icon from '../Icon/Icon'
 
 const Home = () => {
 	const navigate = useNavigate()
+	const [isAscOrder, setIsAscOrder] = useState(false)
 
 	const { data: moviesResponse, isLoading, isError } = useGetMoviesListQuery()
+
+	const handleToggleOrder = () => {
+		setIsAscOrder((prev) => !prev)
+	}
 
 	const toggleAddNewMovie = () => {
 		navigate(ROUTES.CREATE)
@@ -20,6 +27,13 @@ const Home = () => {
 			<h2>Movies:</h2>
 			<div className={styles.actionBtns}>
 				<button onClick={toggleAddNewMovie}>add new movie</button>
+				<div>lol</div>
+				{isAscOrder ? (
+					<Icon id={'asc'} onClick={handleToggleOrder} />
+				) : (
+					<Icon id={'desc'} onClick={handleToggleOrder} />
+				)}
+
 				<MovieFileForm />
 			</div>
 
