@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './App.css'
-import AppRoutes from './components/App/AppRoutes'
-import Footer from './components/Footer.tsx/Footer'
-import Header from './components/Header/Header'
-import { useAppDispatch, useAppSelector } from './features/store'
-import { login } from './features/user/userSlice'
-import { ROUTES } from './utils/constants'
+import AppRoutes from './AppRoutes'
+import Footer from '../Footer.tsx/Footer'
+import Header from '../Header/Header'
+import { useAppDispatch, useAppSelector } from '../../features/store'
+import { login } from '../../features/user/userSlice'
+import { ROUTES } from '../../utils/constants'
 
 function App() {
 	const navigate = useNavigate()

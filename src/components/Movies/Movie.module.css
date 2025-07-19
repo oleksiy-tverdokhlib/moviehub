@@ -53,3 +53,21 @@
 	font-weight: bold;
 	font-size: 20px;
 }
+
+.editIcon,
+.deleteIcon {
+	width: 20px;
+	height: 20px;
+	fill: currentColor;
+}
+
+.return {
+	font-size: 1.3rem;
+	cursor: pointer;
+	transition: 0.3s;
+	color: white;
+	font-weight: bold;
+}
+.return:hover {
+	color: black;
+}

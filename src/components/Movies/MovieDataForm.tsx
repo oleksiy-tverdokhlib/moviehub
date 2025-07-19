@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom'
 import { useMovieForm } from '../../utils/useMovieForm'
 import ActorList from '../ActorList/ActorList'
 import TextInput from '../TextInput/TextInput'
 import styles from './Movie.module.css'
+import { ROUTES } from '../../utils/constants'
 
 export interface MovieData {
 	title: string
@@ -15,6 +17,7 @@ interface MovieDataFormProps {
 }
 
 const MovieDataForm = ({ mode }: MovieDataFormProps) => {
+	const navigate = useNavigate()
 	const {
 		formData,
 		handleChange,
@@ -24,8 +27,16 @@ const MovieDataForm = ({ mode }: MovieDataFormProps) => {
 		handleSubmit,
 	} = useMovieForm(mode)
 
+	const handleNavigete = () => {
+		navigate(ROUTES.HOME)
+	}
+
 	return (
 		<form className={styles.movieForm} onSubmit={handleSubmit}>
+			<span className={styles.return} onClick={handleNavigete}>
+				&lt;- Return
+			</span>
+
 			<h3>{mode === 'edit' ? 'Edit Movie' : 'Add New Movie'}</h3>
 
 			<TextInput
