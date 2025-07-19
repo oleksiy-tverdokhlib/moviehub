@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import type { MovieData } from '../components/Movies/MovieDataForm'
 import {
 	useAddNewMovieMutation,
 	useGetMovieByIdQuery,
 	useUpdateMovieMutation,
 } from '../services/movies'
 import { ROUTES } from './constants'
+import type { MovieData } from '../types/movies'
 
 const defaultData: MovieData = {
 	title: '',

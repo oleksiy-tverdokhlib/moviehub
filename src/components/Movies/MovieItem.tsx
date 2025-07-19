@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
-import type { Movie } from '../../features/movies/moviesSlice'
-import styles from './Movie.module.css'
 import { useDeleteMovieByIdMutation } from '../../services/movies'
+import type { Movie } from '../../types/movies'
 import { ROUTES } from '../../utils/constants'
+import styles from './Movie.module.css'
 
 const MovieItem = (props: Movie) => {
 	const [deleteMovieById] = useDeleteMovieByIdMutation()

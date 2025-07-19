@@ -1,16 +1,23 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import type { ILogin, ISignUp } from '../../components/Login&SignUp/AuthForm'
 import { BASE_URL } from '../../utils/constants'
+import type { ILogin, ISignUp } from '../../types/user'
 
 interface LoginResponse {
 	token: string
 	status: number
 }
 
-export interface State {
+interface State {
 	currentUser: LoginResponse
+}
+
+const initialState: State = {
+	currentUser: {
+		status: 0,
+		token: '',
+	},
 }
 
 export const createUser = createAsyncThunk<LoginResponse, ISignUp>(
@@ -45,13 +52,6 @@ export const loginUser = createAsyncThunk<LoginResponse, ILogin>(
 const addCurrentUser = (state: State, action: PayloadAction<LoginResponse>) => {
 	state.currentUser = action.payload
 	localStorage.setItem('token', action.payload.token)
-}
-
-const initialState: State = {
-	currentUser: {
-		status: 0,
-		token: '',
-	},
 }
 
 export const userSlice = createSlice({

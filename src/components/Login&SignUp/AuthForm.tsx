@@ -1,32 +1,16 @@
+import type { IFormData } from '../../types/user'
 import { useAuthForm } from '../../utils/useAuthForm'
 import TextInput from '../TextInput/TextInput'
 import styles from './Login&SignUp.module.css'
 
-interface Props {
+interface AuthModeProps {
 	mode: 'login' | 'signup'
 }
 
-export interface AuthField {
+interface AuthField {
 	id: keyof IFormData
 	label: string
 	type: string
-}
-
-export interface ILogin {
-	email: string
-	password: string
-}
-
-export interface ISignUp extends ILogin {
-	name: string
-	confirmPassword: string
-}
-
-export interface IFormData {
-	email: string
-	password: string
-	name?: string
-	confirmPassword?: string
 }
 
 const loginFields: AuthField[] = [
@@ -41,7 +25,7 @@ const signUpFields: AuthField[] = [
 	{ id: 'confirmPassword', label: 'Confirm Password', type: 'password' },
 ]
 
-const AuthForm = ({ mode }: Props) => {
+const AuthForm = ({ mode }: AuthModeProps) => {
 	const fields = mode === 'login' ? loginFields : signUpFields
 
 	const { data, handleChange, handleSubmit } = useAuthForm(mode)

@@ -5,18 +5,11 @@ import TextInput from '../TextInput/TextInput'
 import styles from './Movie.module.css'
 import { ROUTES } from '../../utils/constants'
 
-export interface MovieData {
-	title: string
-	year: number
-	format: string
-	actors: string[]
-}
-
-interface MovieDataFormProps {
+interface MovieModeProps {
 	mode: 'edit' | 'create'
 }
 
-const MovieDataForm = ({ mode }: MovieDataFormProps) => {
+const MovieDataForm = ({ mode }: MovieModeProps) => {
 	const navigate = useNavigate()
 	const {
 		formData,

@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom'
-import { useGetMoviesListQuery, type Movie } from '../../services/movies'
+import { useGetMoviesListQuery } from '../../services/movies'
 import MovieFileForm from '../Movies/MovieFileForm'
 import MovieItem from '../Movies/MovieItem'
 import styles from './Home.module.css'
 import { ROUTES } from '../../utils/constants'
+import type { Movie } from '../../types/movies'
 
 const Home = () => {
 	const navigate = useNavigate()

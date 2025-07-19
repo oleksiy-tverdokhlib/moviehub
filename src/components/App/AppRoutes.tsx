@@ -1,15 +1,12 @@
 import { Route, Routes } from 'react-router-dom'
+import type { AuthStatus } from '../../types/movies'
 import { ROUTES } from '../../utils/constants'
 import Home from '../Home/Home'
 import AuthForm from '../Login&SignUp/AuthForm'
 import MovieDataForm from '../Movies/MovieDataForm'
 import ProtectedRoute from './ProtectedRoute'
 
-interface Props {
-	isAuth: number
-}
-
-const AppRoutes = ({ isAuth }: Props) => {
+const AppRoutes = ({ isAuth }: AuthStatus) => {
 	const isAuthenticated = !!isAuth
 
 	return (
