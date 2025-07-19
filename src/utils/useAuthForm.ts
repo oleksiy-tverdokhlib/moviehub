@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../features/store'
 import type { IFormData, ILogin, ISignUp } from '../components/Login&SignUp/AuthForm'
 import { createUser, loginUser } from '../features/user/userSlice'
+import { ROUTES } from './constants'
 
 
 export const useAuthForm = (type: 'login' | 'signup') => {
@@ -43,7 +44,7 @@ export const useAuthForm = (type: 'login' | 'signup') => {
         }
 
         setData(initialData)
-        navigate('/')
+        navigate(ROUTES.HOME)
     }
 
     return { data, handleChange, handleSubmit }

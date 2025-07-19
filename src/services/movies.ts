@@ -1,7 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { MovieData } from '../components/Movies/MovieForm'
 import type { RootState } from '../features/store'
 import { BASE_URL } from '../utils/constants'
+
+export interface MovieData {
+	title: string
+	year: number
+	format: string
+	actors: string[]
+}
 
 export interface Actor {
 	id: number
@@ -28,6 +34,11 @@ export interface MovieResponse {
 	status: Status
 }
 
+export interface MovieListResponse {
+	data: Movie[]
+	status: Status
+}
+
 export const movieApi = createApi({
 	reducerPath: 'movieApi',
 	baseQuery: fetchBaseQuery({
@@ -42,14 +53,14 @@ export const movieApi = createApi({
 	}),
 	tagTypes: ['Movie'],
 	endpoints: (build) => ({
-		getMoviesList: build.query<MoviesListResponse, void>({
+		getMoviesList: build.query<MovieListResponse, void>({
 			query: () => `/movies?sort=year&order=DESC&limit=10&offset=0`,
-			providesTags: (result) => [{ type: 'Movie', id: 'LIST' }],
+			providesTags: () => [{ type: 'Movie', id: 'LIST' }],
 		}),
 
 		getMovieById: build.query<MovieResponse, { id: string }>({
 			query: ({ id }) => `movies/${id}`,
-			providesTags: (result, error, { id }) => [{ type: 'Movie', id }],
+			providesTags: (_result, _error, { id }) => [{ type: 'Movie', id }],
 		}),
 
 		deleteMovieById: build.mutation<Status, { id: string }>({
@@ -57,9 +68,7 @@ export const movieApi = createApi({
 				url: `movies/${id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: (result, error, { id }) => [
-				{ type: 'Movie', id: 'LIST' },
-			],
+			invalidatesTags: () => [{ type: 'Movie', id: 'LIST' }],
 		}),
 
 		updateMovie: build.mutation<
@@ -71,7 +80,7 @@ export const movieApi = createApi({
 				method: 'PATCH',
 				body: updatedMovie,
 			}),
-			invalidatesTags: (result, error, { id }) => [
+			invalidatesTags: (_result, _error, { id }) => [
 				{ type: 'Movie', id },
 				{ type: 'Movie', id: 'LIST' },
 			],

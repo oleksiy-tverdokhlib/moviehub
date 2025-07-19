@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../features/store'
+import { useAppDispatch } from '../../features/store'
 import { logout } from '../../features/user/userSlice'
 import styles from './Header.module.css'
 
-const Header = () => {
-	const dispatch = useAppDispatch()
+interface Props {
+	isAuth: number
+}
 
-	const isAuth = useAppSelector((state) => state.user.currentUser?.status)
+const Header = ({ isAuth }: Props) => {
+	const dispatch = useAppDispatch()
+	
 	const userName = localStorage.getItem('userName')
 	const parsedName = userName && JSON.parse(userName)
 

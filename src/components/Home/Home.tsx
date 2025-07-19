@@ -3,6 +3,7 @@ import { useGetMoviesListQuery, type Movie } from '../../services/movies'
 import MovieFileForm from '../Movies/MovieFileForm'
 import MovieItem from '../Movies/MovieItem'
 import styles from './Home.module.css'
+import { ROUTES } from '../../utils/constants'
 
 const Home = () => {
 	const navigate = useNavigate()
@@ -10,7 +11,7 @@ const Home = () => {
 	const { data: moviesResponse, isLoading, isError } = useGetMoviesListQuery()
 
 	const toggleAddNewMovie = () => {
-		navigate('create')
+		navigate(ROUTES.CREATE)
 	}
 
 	return (

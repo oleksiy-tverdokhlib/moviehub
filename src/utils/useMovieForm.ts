@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import type { MovieData } from '../components/Movies/MovieDataForm'
 import {
-    useAddNewMovieMutation,
-    useGetMovieByIdQuery,
-    useUpdateMovieMutation,
+	useAddNewMovieMutation,
+	useGetMovieByIdQuery,
+	useUpdateMovieMutation,
 } from '../services/movies'
+import { ROUTES } from './constants'
 
 const defaultData: MovieData = {
 	title: '',
@@ -80,14 +81,14 @@ export const useMovieForm = (mode: 'edit' | 'create') => {
 					JSON.stringify(original.actors.map((a) => a.name))
 
 			if (unchanged) {
-				navigate('/')
+				navigate(ROUTES.HOME)
 				return
 			}
 			await updateMovie({ id, updatedMovie: formData }).unwrap()
 		} else {
 			await addNewMovie(formData).unwrap()
 		}
-		navigate('/')
+		navigate(ROUTES.HOME)
 	}
 
 	return {
