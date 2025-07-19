@@ -1,50 +1,24 @@
-import { useEffect, useState } from 'react'
-import {
-	useAddNewMovieMutation,
-	useGetMoviesListQuery,
-	type Movie,
-} from '../../services/movies'
-import AddNewMovieForm from '../Movies/AddNewMovieForm'
+import { useNavigate } from 'react-router-dom'
+import { useGetMoviesListQuery, type Movie } from '../../services/movies'
 import MovieFileForm from '../Movies/MovieFileForm'
 import MovieItem from '../Movies/MovieItem'
 import styles from './Home.module.css'
 
 const Home = () => {
-	const [addNewMovie, { isSuccess }] = useAddNewMovieMutation()
+	const navigate = useNavigate()
 
-	const {
-		data: moviesResponse,
-		isLoading,
-		isError,
-		refetch,
-	} = useGetMoviesListQuery()
-
-	const [isCreatingMovie, setIsCreatingMovie] = useState(false)
+	const { data: moviesResponse, isLoading, isError } = useGetMoviesListQuery()
 
 	const toggleAddNewMovie = () => {
-		setIsCreatingMovie((prev) => !prev)
+		navigate('create')
 	}
-
-	useEffect(() => {
-		if (isSuccess) {
-			refetch()
-		}
-	}, [isSuccess])
 
 	return (
 		<div>
 			<h2>Movies:</h2>
 			<div className={styles.actionBtns}>
-				{isCreatingMovie ? (
-					<AddNewMovieForm
-						toggleAddNewMovie={toggleAddNewMovie}
-						addNewMovie={addNewMovie}
-					/>
-				) : (
-					<button onClick={toggleAddNewMovie}>add new movie</button>
-				)}
-
-				{!isCreatingMovie && <MovieFileForm />}
+				<button onClick={toggleAddNewMovie}>add new movie</button>
+				<MovieFileForm />
 			</div>
 
 			<div className={styles.list}>

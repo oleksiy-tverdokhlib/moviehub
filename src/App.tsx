@@ -4,9 +4,8 @@ import './App.css'
 import Footer from './components/Footer.tsx/Footer'
 import Header from './components/Header/Header'
 import Home from './components/Home/Home'
-import Login from './components/Login&SignUp/Login'
-import SignUp from './components/Login&SignUp/SignUp'
-import Movies from './components/Movies/Movie'
+import AuthForm from './components/Login&SignUp/AuthForm'
+import MovieDataForm from './components/Movies/MovieDataForm'
 import { useAppDispatch, useAppSelector } from './features/store'
 import { login } from './features/user/userSlice'
 
@@ -41,18 +40,26 @@ function App() {
 			<Header />
 			<div className="container">
 				<Routes>
-					<Route path="/login" element={<Login />} />
-					<Route path="/register" element={<SignUp />} />
-
+					<Route path="/login" element={<AuthForm type="login" />} />
+					<Route path="/signup" element={<AuthForm type="signup" />} />
 					{/* Protected Routes */}
 					<Route
 						path="/movies/:id"
 						element={
 							<ProtectedRoute isAuth={!!isAuth}>
-								<Movies />
+								<MovieDataForm mode={'edit'} />
 							</ProtectedRoute>
 						}
 					/>
+					<Route
+						path="/create"
+						element={
+							<ProtectedRoute isAuth={!!isAuth}>
+								<MovieDataForm mode={'create'} />
+							</ProtectedRoute>
+						}
+					/>
+
 					<Route
 						path="/"
 						element={

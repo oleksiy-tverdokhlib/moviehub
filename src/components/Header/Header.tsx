@@ -22,7 +22,7 @@ const Header = () => {
 					{!isAuth && (
 						<>
 							<Link to="/login">login</Link>
-							<Link to="/register">register</Link>
+							<Link to="/signup">sign up</Link>
 						</>
 					)}
 

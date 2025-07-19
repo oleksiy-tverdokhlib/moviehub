@@ -1,0 +1,36 @@
+.inputField input {
+	width: 100%;
+	padding: 12px 15px;
+	margin: 8px 0 20px 0;
+	display: block;
+	border: 2px solid #ccc;
+	border-radius: 8px;
+	font-size: 16px;
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+	background-color: #fafafa;
+	outline: none;
+	box-sizing: border-box;
+	color: black;
+}
+
+.inputField input::placeholder {
+	color: #aaa;
+	font-style: italic;
+}
+
+.inputField input:focus {
+	border-color: #007bff; /* Яскравий синій колір при фокусі */
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+	background-color: #fff;
+}
+
+.inputField {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	margin: 0px;
+}
+
+.inputField input {
+	margin: 0px;
+}

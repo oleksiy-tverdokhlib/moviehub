@@ -1,3 +1,5 @@
+import styles from './TextInput.module.css'
+
 interface Props {
 	id: string
 	label?: string
@@ -7,10 +9,12 @@ interface Props {
 }
 
 const TextInput = ({ id, label, type = 'text', value, onChange }: Props) => (
-	<label style={{ display: 'flex', flexDirection: 'column' }}>
-		{label && <span>{label}:</span>}
-		<input id={id} type={type} value={value} onChange={onChange} />
-	</label>
+	<div className={styles.inputField}>
+		<label>
+			{label && <span>{label}:</span>}
+			<input id={id} type={type} value={value} onChange={onChange} />
+		</label>
+	</div>
 )
 
 export default TextInput
