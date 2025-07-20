@@ -11,19 +11,26 @@ interface Props {
 }
 
 const Sidebar = ({ setSearchParams }: Props) => {
+	const [searchInput, setSearchInput] = useState('')
 	const [selectedOption, setSelectedOption] = useState<SearchMode>('actor')
 	const [orderMode, setOrderMode] = useState<OrderMode>('ASC')
 	const [sortMode, setSortMode] = useState<OrderMode>('year')
 
 	return (
 		<aside className={styles.sidebar}>
-			<SearchBar mode={selectedOption} setSearchParams={setSearchParams} />
+			<SearchBar
+				mode={selectedOption}
+				setSearchParams={setSearchParams}
+				searchInput={searchInput}
+				setSearchInput={setSearchInput}
+			/>
 			<SearchSelect
 				value={selectedOption}
 				onChange={setSelectedOption}
 				mode={'search'}
 				type="Choose search type"
 				setSearchParams={setSearchParams}
+				setSearchInput={setSearchInput}
 			/>
 
 			<SearchSelect

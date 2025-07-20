@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
-import { useMovieForm } from '../hooks/useMovieForm'
+import { ROUTES } from '../../utils/constants'
 import ActorList from '../ActorList/ActorList'
+import { useMovieForm } from '../../hooks/useMovieForm'
+import Icon from '../Icon/Icon'
 import TextInput from '../TextInput/TextInput'
 import styles from './Movie.module.css'
-import { ROUTES } from '../../utils/constants'
-import Icon from '../Icon/Icon'
 
 export interface MovieModeProps {
 	mode: 'edit' | 'create'

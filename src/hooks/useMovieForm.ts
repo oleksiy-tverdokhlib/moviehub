@@ -4,12 +4,12 @@ import {
 	useAddNewMovieMutation,
 	useGetMovieByIdQuery,
 	useUpdateMovieMutation,
-} from '../../services/movies'
-import { ROUTES } from '../../utils/constants'
-import type { MovieData } from '../../types/moviesTypes'
-import type { MovieModeProps } from '../Movies/MovieDataForm'
+} from '../services/movies'
+import type { MovieData } from '../types/moviesTypes'
+import { ROUTES } from '../utils/constants'
+import type { MovieModeProps } from '../components/Movies/MovieDataForm'
 
-const defaultData: MovieData = {
+const initialData: MovieData = {
 	title: '',
 	year: 1900,
 	format: '',
@@ -19,7 +19,7 @@ const defaultData: MovieData = {
 export const useMovieForm = ({ mode }: MovieModeProps) => {
 	const navigate = useNavigate()
 	const { id } = useParams()
-	const [formData, setFormData] = useState<MovieData>(defaultData)
+	const [formData, setFormData] = useState<MovieData>(initialData)
 
 	const [addNewMovie] = useAddNewMovieMutation()
 	const [updateMovie] = useUpdateMovieMutation()

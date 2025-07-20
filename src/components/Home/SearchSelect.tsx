@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import type { SearchParams } from '../../types/moviesTypes'
 import {
 	ORDER_MODES,
@@ -15,6 +16,7 @@ interface Props {
 	mode: 'search' | 'order' | 'sort'
 	type: string
 	setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>
+	setSearchInput?: React.Dispatch<React.SetStateAction<string>>
 }
 
 const SearchSelect = ({
@@ -22,15 +24,16 @@ const SearchSelect = ({
 	onChange,
 	mode,
 	type,
-
 	setSearchParams,
+	setSearchInput,
 }: Props) => {
 	let items: readonly string[]
 
 	switch (mode) {
-		case 'search':
+		case 'search': {
 			items = SEARCH_MODES
 			break
+		}
 		case 'order':
 			items = ORDER_MODES
 			break
@@ -51,9 +54,23 @@ const SearchSelect = ({
 		}
 	}
 
+	useEffect(() => {
+		if (mode === 'search') {
+			const valuesToClear = items.filter((e) => e !== value)
+			setSearchParams((prev) => ({
+				...prev,
+				[valuesToClear[0]]: '',
+				[valuesToClear[1]]: '',
+			}))
+			if (setSearchInput) {
+				setSearchInput('')
+			}
+		}
+	}, [value])
+
 	return (
 		<div role="radiogroup" aria-label={type} className={styles.searchModes}>
-			<span>{type}</span>
+			<span>{type}:</span>
 			{items.map((option) => (
 				<label key={option} style={{ display: 'block', cursor: 'pointer' }}>
 					<input

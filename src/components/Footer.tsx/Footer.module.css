@@ -19,16 +19,17 @@
 	gap: 10px;
 	transition: 0.3s;
 	cursor: pointer;
+	text-decoration: underline;
+	color: darkviolet;
 }
 
 .github a {
-	color: darkviolet;
 	font-weight: 600;
 }
 
 .github:hover {
 	text-decoration: underline;
-	color: darkviolet;
+	color: white;
 }
 
 .gitIcon {

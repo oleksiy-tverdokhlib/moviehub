@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../features/store'
 import { useEffect } from 'react'
-import { login } from '../../features/user/userSlice'
-import { ROUTES } from '../../utils/constants'
+import { useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../features/store'
+import { login } from '../features/user/userSlice'
+import { ROUTES } from '../utils/constants'
 
 export const useIsAuth = () => {
 	const navigate = useNavigate()

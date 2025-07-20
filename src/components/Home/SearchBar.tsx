@@ -1,16 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useSearchDebounce } from '../../hooks/useSearchDebounce'
 import type { SearchParams } from '../../types/moviesTypes'
 import { DELAY, type SearchMode } from '../../utils/constants'
-import { useSearchDebounce } from '../hooks/useSearchDebounce'
 import TextInput from '../TextInput/TextInput'
 
 export interface SearchParamsProps {
 	mode: SearchMode
 	setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>
+	searchInput: string
+	setSearchInput: React.Dispatch<React.SetStateAction<string>>
 }
 
-const SearchBar = ({ mode, setSearchParams }: SearchParamsProps) => {
-	const [searchInput, setSearchInput] = useState('')
+const SearchBar = ({
+	mode,
+	setSearchParams,
+	searchInput,
+	setSearchInput,
+}: SearchParamsProps) => {
 	const debouncedValue = useSearchDebounce(searchInput, DELAY)
 
 	const handleOnChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

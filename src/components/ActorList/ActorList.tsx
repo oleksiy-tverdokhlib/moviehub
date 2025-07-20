@@ -13,7 +13,7 @@ const ActorList = ({ actors, onChange, onAdd, onDelete }: Props) => (
 	<>
 		<strong>Actors:</strong>
 		{actors.map((actor, index) => (
-			<div
+			<div className={styles.actor}
 				key={index}
 				style={{
 					display: 'flex',

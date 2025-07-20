@@ -1,5 +1,5 @@
 import type { IFormData } from '../../types/userTypes'
-import { useAuthForm } from '../hooks/useAuthForm'
+import { useAuthForm } from '../../hooks/useAuthForm'
 import TextInput from '../TextInput/TextInput'
 import styles from './Login&SignUp.module.css'
 
