@@ -1,4 +1,4 @@
-import { useIsAuth } from '../../utils/useIsAuth'
+import { useIsAuth } from '../hooks/useIsAuth'
 import Footer from '../Footer.tsx/Footer'
 import Header from '../Header/Header'
 import './App.css'

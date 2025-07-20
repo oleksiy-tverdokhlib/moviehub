@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { SearchParams } from '../types/moviesTypes'
+import type { SearchParams } from '../../types/moviesTypes'
 
 export const useFilter = () => {
 	const [searchData, setSearchParams] = useState<SearchParams>({

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useMovieForm } from '../../utils/useMovieForm'
+import { useMovieForm } from '../hooks/useMovieForm'
 import ActorList from '../ActorList/ActorList'
 import TextInput from '../TextInput/TextInput'
 import styles from './Movie.module.css'

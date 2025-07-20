@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { SearchParams } from '../../types/moviesTypes'
 import { DELAY, type SearchMode } from '../../utils/constants'
-import { useSearchDebounce } from '../../utils/useSearchDebounce'
+import { useSearchDebounce } from '../hooks/useSearchDebounce'
 import TextInput from '../TextInput/TextInput'
 
 export interface SearchParamsProps {

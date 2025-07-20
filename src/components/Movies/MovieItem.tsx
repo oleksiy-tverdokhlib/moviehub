@@ -2,8 +2,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDeleteMovieByIdMutation } from '../../services/movies'
 import type { Movie } from '../../types/moviesTypes'
 import { ROUTES } from '../../utils/constants'
-import styles from './Movie.module.css'
 import Icon from '../Icon/Icon'
+import styles from './Movie.module.css'
 
 const MovieItem = (props: Movie) => {
 	const [deleteMovieById] = useDeleteMovieByIdMutation()
@@ -18,15 +18,12 @@ const MovieItem = (props: Movie) => {
 		try {
 			await deleteMovieById({ id: `${id}` }).unwrap()
 			navigate(ROUTES.HOME)
-			console.log('Deleted successfully')
-		} catch (err) {
-			console.error('Failed to delete movie', err)
-		}
+		} catch (err) {}
 	}
 
 	return (
 		<div className={styles.item}>
-			<Link className={styles.info} to={`/movies/${id}`} state={{ edit: true }}>
+			<Link className={styles.info} to={`/movies/${id}`}>
 				<h4>{title}</h4>
 				<span>{format}</span>
 				<span>{year}</span>

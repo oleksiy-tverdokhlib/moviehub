@@ -4,7 +4,7 @@ import type { OrderMode, SearchMode } from '../../utils/constants'
 import SearchBar from './SearchBar'
 import SearchSelect from './SearchSelect'
 import type { SearchParams } from '../../types/moviesTypes'
-import MovieFileForm from '../Movies/MovieFileForm'
+import MovieFileForm from './MovieFileForm'
 
 interface Props {
 	setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>
@@ -40,7 +40,6 @@ const Sidebar = ({ setSearchParams }: Props) => {
 				type="Choose order"
 				setSearchParams={setSearchParams}
 			/>
-
 			<MovieFileForm />
 		</aside>
 	)

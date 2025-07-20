@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import type { AuthModeProps } from '../components/Login&SignUp/AuthForm'
-import { useAppDispatch } from '../features/store'
-import { createUser, loginUser } from '../features/user/userSlice'
-import type { IFormData, ILogin, ISignUp } from '../types/userTypes'
-import { ROUTES } from './constants'
+import type { AuthModeProps } from '../Login&SignUp/AuthForm'
+import { useAppDispatch } from '../../features/store'
+import { createUser, loginUser } from '../../features/user/userSlice'
+import type { IFormData, ILogin, ISignUp } from '../../types/userTypes'
+import { ROUTES } from '../../utils/constants'
 
 export const useAuthForm = ({ mode }: AuthModeProps) => {
 	const dispatch = useAppDispatch()

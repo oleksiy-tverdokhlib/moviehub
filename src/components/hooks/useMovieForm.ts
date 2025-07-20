@@ -4,10 +4,10 @@ import {
 	useAddNewMovieMutation,
 	useGetMovieByIdQuery,
 	useUpdateMovieMutation,
-} from '../services/movies'
-import { ROUTES } from './constants'
-import type { MovieData } from '../types/moviesTypes'
-import type { MovieModeProps } from '../components/Movies/MovieDataForm'
+} from '../../services/movies'
+import { ROUTES } from '../../utils/constants'
+import type { MovieData } from '../../types/moviesTypes'
+import type { MovieModeProps } from '../Movies/MovieDataForm'
 
 const defaultData: MovieData = {
 	title: '',
