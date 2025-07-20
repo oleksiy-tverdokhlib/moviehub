@@ -8,16 +8,24 @@
 	margin: 0;
 	padding: 0;
 }
+.main-layout {
+	display: flex;
+	min-height: 100vh;
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+
+	min-height: 100vh;
+	width: 1200px;
+}
 
 .loginForm {
 	display: flex;
 	flex-direction: column;
 	align-items: end;
 	gap: 15px;
-}
-
-.container {
-	min-height: 100vh;
 }
 
 .logo {

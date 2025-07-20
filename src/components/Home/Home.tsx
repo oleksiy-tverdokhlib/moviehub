@@ -1,51 +1,48 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetMoviesListQuery } from '../../services/movies'
 import type { Movie } from '../../types/moviesTypes'
 import { ROUTES } from '../../utils/constants'
-import MovieFileForm from '../Movies/MovieFileForm'
+import { useFilter } from '../../utils/useFilter'
 import MovieItem from '../Movies/MovieItem'
 import styles from './Home.module.css'
-import Icon from '../Icon/Icon'
+import Sidebar from './SideBar'
 
 const Home = () => {
 	const navigate = useNavigate()
-	const [isAscOrder, setIsAscOrder] = useState(false)
 
-	const { data: moviesResponse, isLoading, isError } = useGetMoviesListQuery()
+	const { setSearchParams, queryArgs } = useFilter()
 
-	const handleToggleOrder = () => {
-		setIsAscOrder((prev) => !prev)
-	}
+	const {
+		data: moviesResponse,
+		isLoading,
+		isError,
+	} = useGetMoviesListQuery(queryArgs, {
+		refetchOnMountOrArgChange: true,
+	})
 
 	const toggleAddNewMovie = () => {
 		navigate(ROUTES.CREATE)
 	}
 
+	if (isLoading) return <div>Loading...</div>
+	if (isError) return <div>Error occurred...</div>
+
 	return (
-		<div>
-			<h2>Movies:</h2>
-			<div className={styles.actionBtns}>
-				<button onClick={toggleAddNewMovie}>add new movie</button>
-				<div>lol</div>
-				{isAscOrder ? (
-					<Icon id={'asc'} onClick={handleToggleOrder} />
-				) : (
-					<Icon id={'desc'} onClick={handleToggleOrder} />
-				)}
+		<main className={styles.home}>
+			<Sidebar setSearchParams={setSearchParams} />
+			<div className={styles.content}>
+				<h2>Movies:</h2>
+				<div className={styles.contentHeader}>
+					<button onClick={toggleAddNewMovie}>add new movie </button>
+				</div>
 
-				<MovieFileForm />
+				<div className={styles.list}>
+					{moviesResponse?.data?.map((movie: Movie) => (
+						<MovieItem key={movie.id} {...movie} />
+					))}
+				</div>
 			</div>
-
-			<div className={styles.list}>
-				{isLoading && <p>Loading movies...</p>}
-				{isError && <p>Failed to fetch movies</p>}
-
-				{moviesResponse?.data?.map((movie: Movie) => (
-					<MovieItem key={movie.id} {...movie} />
-				))}
-			</div>
-		</div>
+		</main>
 	)
 }
 

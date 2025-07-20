@@ -21,6 +21,7 @@ const MovieFileForm = () => {
 	}
 	return (
 		<form onSubmit={handleOnSubmit}>
+			<span>Import movies from your file:</span>
 			<input
 				type="file"
 				id="file"

@@ -39,6 +39,7 @@ const AppRoutes = ({ isAuth }: AuthStatus) => {
 					</ProtectedRoute>
 				}
 			/>
+			<Route path="*" element={<div>Wrong url. Redirecting...</div>} />
 		</Routes>
 	)
 }

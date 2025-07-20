@@ -37,3 +37,13 @@ export interface MovieListResponse {
 export interface AuthStatus {
 	isAuth: number
 }
+
+export interface SearchParams {
+	actor: string
+	title: string
+	search: string
+	sort: 'id' | 'title' | 'year'
+	order: 'ASC' | 'DESC'
+	limit: number
+	offset: number
+}

@@ -8,3 +8,13 @@ export const ROUTES = {
 	CREATE: '/create',
 	MOVIE: '/movies',
 }
+
+export const DELAY = 700
+
+export const SEARCH_MODES = ['actor', 'title', 'search']
+export const ORDER_MODES = ['ASC', 'DESC']
+export const SORT_MODES = ['title', 'year']
+
+export type SearchMode = (typeof SEARCH_MODES)[number]
+export type OrderMode = (typeof ORDER_MODES)[number]
+export type SortMode = (typeof SORT_MODES)[number]

@@ -1,4 +1,6 @@
+import Icon from '../Icon/Icon'
 import TextInput from '../TextInput/TextInput'
+import styles from './ActorList.module.css'
 
 interface Props {
 	actors: string[]
@@ -28,26 +30,25 @@ const ActorList = ({ actors, onChange, onAdd, onDelete }: Props) => (
 				/>
 				{onDelete && (
 					<button
-						type="button"
 						onClick={(e) => {
 							e.preventDefault()
 							onDelete(index)
 						}}
 					>
-						X
+						<Icon id={'cancel'} />
 					</button>
 				)}
 			</div>
 		))}
 		{onAdd && (
-			<button
-				type="button"
+			<button className={styles.actorBtn}
 				onClick={(e) => {
 					e.preventDefault()
 					onAdd()
 				}}
 			>
-				Add Actor
+				<span>Add actor</span>
+				<Icon id={'plus'} />
 			</button>
 		)}
 	</>

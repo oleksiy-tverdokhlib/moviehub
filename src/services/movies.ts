@@ -23,8 +23,8 @@ export const movieApi = createApi({
 	}),
 	tagTypes: ['Movie'],
 	endpoints: (build) => ({
-		getMoviesList: build.query<MovieListResponse, void>({
-			query: () => `/movies?sort=year&order=DESC&limit=10&offset=0`,
+		getMoviesList: build.query<MovieListResponse, { searchString: string }>({
+			query: ({ searchString }) => `/movies?${searchString}`,
 			providesTags: () => [{ type: 'Movie', id: 'LIST' }],
 		}),
 

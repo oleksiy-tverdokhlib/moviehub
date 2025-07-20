@@ -72,23 +72,33 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
+
+		const cleanedActors = formData.actors.filter((e) => e.trim() !== '')
+
+		const payload: MovieData = {
+			...formData,
+			actors: cleanedActors,
+		}
+
 		if (mode === 'edit' && id && existingMovie?.data) {
 			const original = existingMovie.data
 			const unchanged =
 				formData.title === original.title &&
 				formData.year === original.year &&
 				formData.format === original.format &&
-				JSON.stringify(formData.actors) ===
+				JSON.stringify(cleanedActors) ===
 					JSON.stringify(original.actors.map((a) => a.name))
 
 			if (unchanged) {
 				navigate(ROUTES.HOME)
 				return
 			}
-			await updateMovie({ id, updatedMovie: formData }).unwrap()
+
+			await updateMovie({ id, updatedMovie: payload }).unwrap()
 		} else {
-			await addNewMovie(formData).unwrap()
+			await addNewMovie(payload).unwrap()
 		}
+
 		navigate(ROUTES.HOME)
 	}
 
