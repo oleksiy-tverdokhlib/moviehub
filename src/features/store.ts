@@ -4,7 +4,7 @@ import {
 	useSelector,
 	type TypedUseSelectorHook,
 } from 'react-redux'
-import { movieApi } from '../services/movies'
+import { movieApi } from './movies/movies'
 import userSlice from './user/userSlice'
 
 export const store = configureStore({

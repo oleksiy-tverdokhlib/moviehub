@@ -4,7 +4,7 @@ import {
 	useAddNewMovieMutation,
 	useGetMovieByIdQuery,
 	useUpdateMovieMutation,
-} from '../services/movies'
+} from '../features/movies/movies'
 import type { MovieData, MovieModeProps } from '../types/moviesTypes'
 import { handleMoviesFormErrors } from '../utils/common'
 import { ROUTES } from '../utils/constants'

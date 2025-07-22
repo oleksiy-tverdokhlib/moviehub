@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom'
 import type { Movie } from '../../types/moviesTypes'
 import MovieItem from '../Movies/MovieItem'
 import styles from './Home.module.css'
-import { useGetMoviesListQuery } from '../../services/movies'
+import { useGetMoviesListQuery } from '../../features/movies/movies'
 import { ROUTES } from '../../utils/constants'
-import Loader from '../Loader/Loader'
-import ErrorElement from '../ErrorElement/ErrorElement'
+import Loader from '../../common/Loader/Loader'
+import ErrorElement from '../../common/ErrorElement/ErrorElement'
 import { useIsAuth } from '../../hooks/useIsAuth'
 
 interface MoviesListProps {

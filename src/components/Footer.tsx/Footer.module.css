@@ -1,8 +1,8 @@
 .footer {
 	background-color: violet;
-
 	width: 100%;
 }
+
 .container {
 	height: 60px;
 	margin: 0 20px;
@@ -15,25 +15,23 @@
 .github {
 	display: flex;
 	align-items: center;
-	justify-content: center;
 	gap: 10px;
-	transition: 0.3s;
 	cursor: pointer;
-	text-decoration: underline;
 	color: darkviolet;
+	transition: color 0.3s;
 }
 
 .github a {
 	font-weight: 600;
+	text-decoration: underline;
+	color: inherit;
 }
 
 .github:hover {
-	text-decoration: underline;
 	color: white;
 }
 
 .gitIcon {
-	display: block;
 	width: 25px;
 	height: 25px;
 	fill: currentColor;

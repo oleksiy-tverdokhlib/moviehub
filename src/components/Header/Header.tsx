@@ -3,7 +3,7 @@ import { useAppDispatch } from '../../features/store'
 import { logout } from '../../features/user/userSlice'
 import type { AuthStatus } from '../../types/moviesTypes'
 import styles from './Header.module.css'
-import Icon from '../Icon/Icon'
+import Icon from '../../common/Icon/Icon'
 
 const Header = ({ isAuth }: AuthStatus) => {
 	const dispatch = useAppDispatch()

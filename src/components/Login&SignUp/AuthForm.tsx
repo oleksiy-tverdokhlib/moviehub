@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import type { AuthModeProps, IFormData } from '../../types/userTypes'
 import { useAuthForm } from '../../hooks/useAuthForm'
-import TextInput from '../TextInput/TextInput'
+import TextInput from '../../common/TextInput/TextInput'
 import styles from './Login&SignUp.module.css'
 import type { RootState } from '../../features/store'
 

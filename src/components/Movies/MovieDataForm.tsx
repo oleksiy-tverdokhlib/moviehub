@@ -2,11 +2,11 @@ import { useNavigate } from 'react-router-dom'
 import { useMovieForm } from '../../hooks/useMovieForm'
 import type { MovieModeProps } from '../../types/moviesTypes'
 import { ROUTES } from '../../utils/constants'
-import ActorList from '../ActorList/ActorList'
-import Icon from '../Icon/Icon'
-import TextInput from '../TextInput/TextInput'
+import ActorList from '../../common/ActorList/ActorList'
+import Icon from '../../common/Icon/Icon'
+import TextInput from '../../common/TextInput/TextInput'
 import styles from './Movie.module.css'
-import Loader from '../Loader/Loader'
+import Loader from '../../common/Loader/Loader'
 
 const MovieDataForm = ({ mode }: MovieModeProps) => {
 	const navigate = useNavigate()

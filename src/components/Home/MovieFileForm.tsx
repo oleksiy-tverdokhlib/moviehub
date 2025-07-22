@@ -1,5 +1,5 @@
 import { useRef, useState, type ChangeEvent, type SyntheticEvent } from 'react'
-import { useImportMoviesMutation } from '../../services/movies'
+import { useImportMoviesMutation } from '../../features/movies/movies'
 
 const MovieFileForm = () => {
 	const [importMovies] = useImportMoviesMutation()
