@@ -6,7 +6,7 @@ export const useFilter = () => {
 		actor: '',
 		title: '',
 		search: '',
-		sort: 'year',
+		sort: 'title',
 		order: 'ASC',
 		limit: 10,
 		offset: 0,

@@ -46,7 +46,7 @@ info:hover {
 	flex-direction: column;
 	align-items: flex-start;
 	padding: 40px;
-	gap: 25px;
+	gap: 5px;
 	min-width: 300px;
 	min-height: 300px;
 	background-color: darkviolet;

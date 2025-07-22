@@ -15,9 +15,11 @@ interface MoviesListProps {
 }
 
 const MoviesList = ({ queryArgs }: MoviesListProps) => {
-	const isAuth = useIsAuth()
-	if (!isAuth) return
 	const navigate = useNavigate()
+	const isAuth = useIsAuth()
+
+	if (!isAuth) return
+
 	const {
 		data: moviesResponse,
 		isLoading,

@@ -14,7 +14,7 @@ const Sidebar = ({ setSearchParams }: SidebarProps) => {
 	const [searchInput, setSearchInput] = useState('')
 	const [selectedOption, setSelectedOption] = useState<SearchMode>('actor')
 	const [orderMode, setOrderMode] = useState<OrderMode>('ASC')
-	const [sortMode, setSortMode] = useState<OrderMode>('year')
+	const [sortMode, setSortMode] = useState<OrderMode>('title')
 
 	return (
 		<aside className={styles.sidebar}>

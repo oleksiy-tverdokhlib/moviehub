@@ -18,7 +18,7 @@ const Header = ({ isAuth }: AuthStatus) => {
 	return (
 		<header className={styles.header}>
 			<div className={styles.container}>
-				<Link to="/">Home</Link>
+				<Link to="/">MovieHub</Link>
 				<div className={styles.currentUser}>
 					{!isAuth && (
 						<>
