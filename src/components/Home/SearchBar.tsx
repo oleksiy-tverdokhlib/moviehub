@@ -1,5 +1,6 @@
 import {
 	useEffect,
+	useState,
 	type ChangeEvent,
 	type Dispatch,
 	type SetStateAction,
@@ -7,7 +8,7 @@ import {
 import { useSearchDebounce } from '../../hooks/useSearchDebounce'
 import type { SearchParams } from '../../types/moviesTypes'
 import { DELAY, type SearchMode } from '../../utils/constants'
-import TextInput from '../../common/TextInput/TextInput'
+import TextInput from '../TextInput/TextInput'
 
 interface SearchParamsProps {
 	mode: SearchMode
@@ -22,6 +23,7 @@ const SearchBar = ({
 	searchInput,
 	setSearchInput,
 }: SearchParamsProps) => {
+	const [error, setError] = useState<undefined | string>(undefined)
 	const debouncedValue = useSearchDebounce(searchInput, DELAY)
 
 	const handleOnChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +31,11 @@ const SearchBar = ({
 	}
 
 	useEffect(() => {
-		if (searchInput.length === 1) return
+		if (searchInput.length === 1) {
+			setError('too short')
+			return
+		}
+		setError(undefined)
 		setSearchParams((prev) => ({
 			...prev,
 			[mode]: debouncedValue,
@@ -43,6 +49,7 @@ const SearchBar = ({
 				placeholder="Search for a movie"
 				value={searchInput}
 				onChange={handleOnChangeSearch}
+				error={error}
 			/>
 		</div>
 	)

@@ -30,6 +30,7 @@ const TextInput = ({
 			placeholder={placeholder}
 		/>
 		{error && <div className={styles.errorMessage}>{error}</div>}
+
 	</div>
 )
 

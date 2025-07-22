@@ -4,8 +4,8 @@ import MovieItem from '../Movies/MovieItem'
 import styles from './Home.module.css'
 import { useGetMoviesListQuery } from '../../features/movies/movies'
 import { ROUTES } from '../../utils/constants'
-import Loader from '../../common/Loader/Loader'
-import ErrorElement from '../../common/ErrorElement/ErrorElement'
+import Loader from '../Loader/Loader'
+import ErrorElement from '../ErrorElement/ErrorElement'
 import { useIsAuth } from '../../hooks/useIsAuth'
 
 interface MoviesListProps {
@@ -25,9 +25,7 @@ const MoviesList = ({ queryArgs }: MoviesListProps) => {
 		isLoading,
 		isError,
 		error,
-	} = useGetMoviesListQuery(queryArgs, {
-		refetchOnMountOrArgChange: true,
-	})
+	} = useGetMoviesListQuery(queryArgs)
 
 	const toggleAddNewMovie = () => {
 		navigate(ROUTES.CREATE)

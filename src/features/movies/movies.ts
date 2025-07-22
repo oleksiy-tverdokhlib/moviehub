@@ -7,12 +7,12 @@ import type {
 	MovieResponse,
 	Status,
 } from '../../types/moviesTypes'
-import { BASE_URL } from '../../utils/constants'
+import { API_ENDPOINTS } from '../../utils/constants'
 
 export const movieApi = createApi({
 	reducerPath: 'movieApi',
 	baseQuery: fetchBaseQuery({
-		baseUrl: BASE_URL,
+		baseUrl: API_ENDPOINTS.movies,
 		prepareHeaders: (headers, { getState }) => {
 			const token = (getState() as RootState).user.currentUser.token
 			if (token) {
@@ -24,18 +24,18 @@ export const movieApi = createApi({
 	tagTypes: ['Movie'],
 	endpoints: (build) => ({
 		getMoviesList: build.query<MovieListResponse, { searchString: string }>({
-			query: ({ searchString }) => `/movies?${searchString}`,
+			query: ({ searchString }) => `?${searchString}`,
 			providesTags: () => [{ type: 'Movie', id: 'LIST' }],
 		}),
 
 		getMovieById: build.query<MovieResponse, { id: string }>({
-			query: ({ id }) => `movies/${id}`,
+			query: ({ id }) => `/${id}`,
 			providesTags: (_result, _error, { id }) => [{ type: 'Movie', id }],
 		}),
 
 		deleteMovieById: build.mutation<Status, { id: string }>({
 			query: ({ id }) => ({
-				url: `movies/${id}`,
+				url: `/${id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: () => [{ type: 'Movie', id: 'LIST' }],
@@ -46,7 +46,7 @@ export const movieApi = createApi({
 			{ id: string; updatedMovie: MovieData }
 		>({
 			query: ({ id, updatedMovie }) => ({
-				url: `movies/${id}`,
+				url: `/${id}`,
 				method: 'PATCH',
 				body: updatedMovie,
 			}),
@@ -58,7 +58,7 @@ export const movieApi = createApi({
 
 		addNewMovie: build.mutation<MovieResponse, MovieData>({
 			query: (movie) => ({
-				url: `movies`,
+				url: ``,
 				method: 'POST',
 				body: movie,
 			}),
@@ -71,7 +71,7 @@ export const movieApi = createApi({
 				formData.append('movies', file)
 
 				return {
-					url: `movies/import`,
+					url: `/import`,
 					method: 'POST',
 					body: formData,
 				}

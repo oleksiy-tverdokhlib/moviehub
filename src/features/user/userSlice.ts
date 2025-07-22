@@ -5,7 +5,7 @@ import {
 } from '@reduxjs/toolkit'
 import axios from 'axios'
 import type { ILogin, ISignUp } from '../../types/userTypes'
-import { BASE_URL } from '../../utils/constants'
+import { API_ENDPOINTS } from '../../utils/constants'
 
 interface FieldError {
 	[key: string]: string
@@ -46,7 +46,7 @@ export const createUser = createAsyncThunk<
 >('user/createUser', async (payload, thunkAPI) => {
 	try {
 		const response = await axios.post<LoginResponse>(
-			`${BASE_URL}/users`,
+			API_ENDPOINTS.signup,
 			payload
 		)
 		return response.data
@@ -66,7 +66,7 @@ export const loginUser = createAsyncThunk<
 >('user/loginUser', async (payload, thunkAPI) => {
 	try {
 		const response = await axios.post<LoginResponse>(
-			`${BASE_URL}/sessions`,
+			API_ENDPOINTS.signin,
 			payload
 		)
 		return response.data
@@ -95,7 +95,6 @@ const addCurrentUser = (
 }
 
 const addError = (state: State, action: PayloadAction<APIError>) => {
-
 	localStorage.setItem('token', '')
 	state.currentUser = {
 		status: 0,

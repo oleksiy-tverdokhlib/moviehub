@@ -27,8 +27,8 @@ export const handleMoviesFormErrors = (formData: MovieData): MoviesErrors => {
 	}
 
 	// Year validation
-	if (formData.year < 1900 || formData.year > new Date().getFullYear()) {
-		errors.year = `Year must be between 1900 and ${new Date().getFullYear()}`
+	if (formData.year < 1900 || formData.year > 2020) {
+		errors.year = `Year must be between 1900 and ${2020}`
 	}
 
 	// Format validation

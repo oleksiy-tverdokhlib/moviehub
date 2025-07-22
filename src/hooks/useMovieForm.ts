@@ -5,15 +5,25 @@ import {
 	useGetMovieByIdQuery,
 	useUpdateMovieMutation,
 } from '../features/movies/movies'
-import type { MovieData, MovieModeProps } from '../types/moviesTypes'
+import type {
+	MovieData,
+	MovieModeProps,
+	MoviesErrors,
+} from '../types/moviesTypes'
 import { handleMoviesFormErrors } from '../utils/common'
 import { ROUTES } from '../utils/constants'
 
 const initialData: MovieData = {
 	title: '',
-	year: 1900,
+	year: 2020,
 	format: '',
 	actors: [''],
+}
+const initialErrors: MoviesErrors = {
+	title: undefined,
+	year: undefined,
+	format: undefined,
+	actors: undefined,
 }
 
 export const useMovieForm = ({ mode }: MovieModeProps) => {
@@ -21,7 +31,8 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 	const { id } = useParams()
 
 	const [formData, setFormData] = useState<MovieData>(initialData)
-	const formErrors = handleMoviesFormErrors(formData)
+
+	const [formErrors, setFormErrors] = useState(initialErrors)
 
 	const [addNewMovie] = useAddNewMovieMutation()
 	const [updateMovie] = useUpdateMovieMutation()
@@ -79,10 +90,11 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault()
 
-		const isEmptyErrorObject = Object.values(formErrors).every(
-			(e) => e === undefined
-		)
+		const err = handleMoviesFormErrors(formData)
+		const isEmptyErrorObject = Object.values(err).every((e) => e === undefined)
+
 		if (!isEmptyErrorObject) {
+			setFormErrors(err)
 			return
 		}
 
@@ -92,16 +104,22 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 			...formData,
 			actors: cleanedActors,
 		}
-
-		if (mode === 'edit' && id && existingMovie?.data) {
+		if (id && existingMovie?.data) {
 			const original = existingMovie.data
-			const unchanged = JSON.stringify(payload) === JSON.stringify(original)
+
+			const unchanged =
+				formData.title === original.title &&
+				formData.year === original.year &&
+				formData.format === original.format &&
+				JSON.stringify(formData.actors) ===
+					JSON.stringify(original.actors.map((a) => a.name))
 
 			if (unchanged) {
-				navigate(ROUTES.HOME)
 				return
 			}
+		}
 
+		if (mode === 'edit' && id) {
 			await updateMovie({ id, updatedMovie: payload }).unwrap()
 		} else {
 			await addNewMovie(payload).unwrap()

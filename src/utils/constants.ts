@@ -1,4 +1,10 @@
-export const BASE_URL = 'http://localhost:8000/api/v1'
+const BASE_API_URL = import.meta.env.VITE_MOVIES_BASE_API_URL
+
+export const API_ENDPOINTS = {
+	signup: `${BASE_API_URL}/users`,
+	signin: `${BASE_API_URL}/sessions`,
+	movies: `${BASE_API_URL}/movies`,
+}
 
 export const ROUTES = {
 	HOME: '/',
@@ -14,7 +20,7 @@ export const DELAY = 700
 export const SEARCH_MODES = ['actor', 'title', 'search']
 export const ORDER_MODES = ['ASC', 'DESC']
 export const SORT_MODES = ['title', 'year']
-export const FORMAT= ['VHS', 'DVD', 'Blu-Ray']
+export const FORMAT = ['VHS', 'DVD', 'Blu-Ray']
 
 export type SearchMode = (typeof SEARCH_MODES)[number]
 export type OrderMode = (typeof ORDER_MODES)[number]
