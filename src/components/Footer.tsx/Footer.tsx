@@ -1,4 +1,4 @@
-import Icon from '../Icon/Icon'
+import Icon from '../../common/Icon/Icon'
 import styles from './Footer.module.css'
 
 const Footer = () => {

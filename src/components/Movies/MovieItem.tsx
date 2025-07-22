@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDeleteMovieByIdMutation } from '../../features/movies/movies'
 import type { Movie } from '../../types/moviesTypes'
 import { ROUTES } from '../../utils/constants'
-import Icon from '../Icon/Icon'
+import Icon from '../../common/Icon/Icon'
 import styles from './Movie.module.css'
 
 const MovieItem = (props: Movie) => {
@@ -15,10 +15,8 @@ const MovieItem = (props: Movie) => {
 		navigate(`${ROUTES.MOVIE}/${id}`)
 	}
 	const handleDelete = async () => {
-		try {
-			await deleteMovieById({ id: `${id}` }).unwrap()
-			navigate(ROUTES.HOME)
-		} catch (err) {}
+		deleteMovieById({ id: `${id}` }).unwrap()
+		navigate(ROUTES.HOME)
 	}
 
 	return (

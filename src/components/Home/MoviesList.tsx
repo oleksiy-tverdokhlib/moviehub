@@ -4,8 +4,8 @@ import MovieItem from '../Movies/MovieItem'
 import styles from './Home.module.css'
 import { useGetMoviesListQuery } from '../../features/movies/movies'
 import { ROUTES } from '../../utils/constants'
-import Loader from '../Loader/Loader'
-import ErrorElement from '../ErrorElement/ErrorElement'
+import Loader from '../../common/Loader/Loader'
+import ErrorElement from '../../common/ErrorElement/ErrorElement'
 import { useIsAuth } from '../../hooks/useIsAuth'
 
 interface MoviesListProps {

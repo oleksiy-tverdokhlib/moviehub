@@ -8,7 +8,7 @@ import {
 import { useSearchDebounce } from '../../hooks/useSearchDebounce'
 import type { SearchParams } from '../../types/moviesTypes'
 import { DELAY, type SearchMode } from '../../utils/constants'
-import TextInput from '../TextInput/TextInput'
+import TextInput from '../../common/TextInput/TextInput'
 
 interface SearchParamsProps {
 	mode: SearchMode

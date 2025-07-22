@@ -14,9 +14,9 @@ import { handleMoviesFormErrors } from '../utils/common'
 import { ROUTES } from '../utils/constants'
 
 const initialData: MovieData = {
-	title: '',
-	year: 2020,
-	format: '',
+	title: 'Write your title',
+	year: 2000,
+	format: 'DVD',
 	actors: [''],
 }
 const initialErrors: MoviesErrors = {
@@ -31,7 +31,6 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 	const { id } = useParams()
 
 	const [formData, setFormData] = useState<MovieData>(initialData)
-
 	const [formErrors, setFormErrors] = useState(initialErrors)
 
 	const [addNewMovie] = useAddNewMovieMutation()
@@ -58,6 +57,10 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 			})
 		}
 	}, [mode, isSuccess, existingMovie])
+
+	useEffect(() => {
+		setFormErrors(handleMoviesFormErrors(formData))
+	}, [formData])
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = e.target
@@ -87,7 +90,7 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		}))
 	}
 
-	const handleSubmit = async (e: FormEvent) => {
+	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault()
 
 		const err = handleMoviesFormErrors(formData)
@@ -120,9 +123,9 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		}
 
 		if (mode === 'edit' && id) {
-			await updateMovie({ id, updatedMovie: payload }).unwrap()
+			updateMovie({ id, updatedMovie: payload }).unwrap()
 		} else {
-			await addNewMovie(payload).unwrap()
+			addNewMovie(payload).unwrap()
 		}
 
 		navigate(ROUTES.HOME)

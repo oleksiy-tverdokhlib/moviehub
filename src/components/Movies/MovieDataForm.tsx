@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom'
+import ActorList from '../../common/ActorList/ActorList'
+import Icon from '../../common/Icon/Icon'
+import Loader from '../../common/Loader/Loader'
+import TextInput from '../../common/TextInput/TextInput'
 import { useMovieForm } from '../../hooks/useMovieForm'
 import type { MovieModeProps } from '../../types/moviesTypes'
 import { ROUTES } from '../../utils/constants'
-import ActorList from '../ActorList/ActorList'
-import Icon from '../Icon/Icon'
-import TextInput from '../TextInput/TextInput'
 import styles from './Movie.module.css'
-import Loader from '../Loader/Loader'
 
 const MovieDataForm = ({ mode }: MovieModeProps) => {
 	const navigate = useNavigate()
@@ -19,7 +19,6 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 		handleSubmit,
 		formErrors,
 		isLoading,
-
 	} = useMovieForm({ mode })
 
 	const handleNavigete = () => {
@@ -70,7 +69,6 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 					onDelete={handleDeleteActor}
 					errors={formErrors.actors}
 				/>
-	
 
 				<button type="submit">{mode === 'edit' ? 'Save' : 'Add Movie'} </button>
 			</form>

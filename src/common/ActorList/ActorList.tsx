@@ -1,5 +1,5 @@
-import Icon from '../Icon/Icon'
-import TextInput from '../TextInput/TextInput'
+import Icon from '../../common/Icon/Icon'
+import TextInput from '../../common/TextInput/TextInput'
 import styles from './ActorList.module.css'
 
 interface ActorProps {
