@@ -1,8 +1,25 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import {
+	createAsyncThunk,
+	createSlice,
+	type PayloadAction,
+} from '@reduxjs/toolkit'
 import axios from 'axios'
-import { BASE_URL } from '../../utils/constants'
 import type { ILogin, ISignUp } from '../../types/userTypes'
+import { BASE_URL } from '../../utils/constants'
+
+interface FieldError {
+	[key: string]: string
+}
+
+interface CustomError {
+	code: string
+	fields?: FieldError
+}
+
+export interface APIError {
+	error: CustomError
+	status: number
+}
 
 interface LoginResponse {
 	token: string
@@ -10,48 +27,81 @@ interface LoginResponse {
 }
 
 interface State {
+	error: APIError | null
 	currentUser: LoginResponse
 }
 
 const initialState: State = {
+	error: null,
 	currentUser: {
 		status: 0,
 		token: '',
 	},
 }
 
-export const createUser = createAsyncThunk<LoginResponse, ISignUp>(
-	'users/createUser',
-	async (payload, thunkAPI) => {
-		try {
-			const res = await axios.post<LoginResponse>(`${BASE_URL}/users`, payload)
-			return res.data
-		} catch (err: any) {
-			console.error(err)
-			return thunkAPI.rejectWithValue(err)
+export const createUser = createAsyncThunk<
+	LoginResponse,
+	ISignUp,
+	{ rejectValue: APIError }
+>('user/createUser', async (payload, thunkAPI) => {
+	try {
+		const response = await axios.post<LoginResponse>(
+			`${BASE_URL}/users`,
+			payload
+		)
+		return response.data
+	} catch (err: any) {
+		const error: APIError = err.response?.data || {
+			status: err.response?.status || 500,
+			error: { code: 'UNKNOWN_ERROR' },
 		}
+		return thunkAPI.rejectWithValue(error)
 	}
-)
+})
 
-export const loginUser = createAsyncThunk<LoginResponse, ILogin>(
-	'users/loginUser',
-	async (payload, thunkAPI) => {
-		try {
-			const res = await axios.post<LoginResponse>(
-				`${BASE_URL}/sessions`,
-				payload
-			)
-			return res.data
-		} catch (err: any) {
-			console.error(err)
-			return thunkAPI.rejectWithValue(err)
+export const loginUser = createAsyncThunk<
+	LoginResponse,
+	ILogin,
+	{ rejectValue: APIError }
+>('user/loginUser', async (payload, thunkAPI) => {
+	try {
+		const response = await axios.post<LoginResponse>(
+			`${BASE_URL}/sessions`,
+			payload
+		)
+		return response.data
+	} catch (err: any) {
+		const error: APIError = err.response?.data || {
+			status: err.response?.status || 500,
+			error: { code: 'UNKNOWN_ERROR' },
 		}
+		return thunkAPI.rejectWithValue(error)
 	}
-)
+})
 
-const addCurrentUser = (state: State, action: PayloadAction<LoginResponse>) => {
-	state.currentUser = action.payload
-	localStorage.setItem('token', action.payload.token)
+const addCurrentUser = (
+	state: State,
+	action: PayloadAction<LoginResponse | APIError>
+) => {
+	if ('error' in action.payload) {
+		localStorage.setItem('token', '')
+		state.currentUser = { status: 0, token: '' }
+		state.error = action.payload
+	} else {
+		localStorage.setItem('token', action.payload.token)
+		state.currentUser = action.payload
+		state.error = null
+	}
+}
+
+const addError = (state: State, action: PayloadAction<APIError>) => {
+
+	localStorage.setItem('token', '')
+	state.currentUser = {
+		status: 0,
+		token: '',
+	}
+	state.error = action.payload
 }
 
 export const userSlice = createSlice({
@@ -72,12 +122,26 @@ export const userSlice = createSlice({
 				token: token || '',
 			}
 		},
+		setNoError: (state) => {
+			state.error = null
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(loginUser.fulfilled, addCurrentUser)
+		builder.addCase(loginUser.rejected, (state, action) => {
+			if (action.payload) {
+				addError(state, { payload: action.payload, type: action.type })
+			}
+		})
+
+		builder.addCase(createUser.fulfilled, addCurrentUser)
+		builder.addCase(createUser.rejected, (state, action) => {
+			if (action.payload) {
+				addError(state, { payload: action.payload, type: action.type })
+			}
+		})
 	},
 })
 
-export const { logout, login } = userSlice.actions
-
+export const { logout, login, setNoError } = userSlice.actions
 export default userSlice.reducer

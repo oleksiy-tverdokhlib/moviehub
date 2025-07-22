@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
 	useAddNewMovieMutation,
 	useGetMovieByIdQuery,
 	useUpdateMovieMutation,
 } from '../services/movies'
-import type { MovieData } from '../types/moviesTypes'
+import type { MovieData, MovieModeProps } from '../types/moviesTypes'
+import { handleMoviesFormErrors } from '../utils/common'
 import { ROUTES } from '../utils/constants'
-import type { MovieModeProps } from '../components/Movies/MovieDataForm'
 
 const initialData: MovieData = {
 	title: '',
@@ -19,12 +19,18 @@ const initialData: MovieData = {
 export const useMovieForm = ({ mode }: MovieModeProps) => {
 	const navigate = useNavigate()
 	const { id } = useParams()
+
 	const [formData, setFormData] = useState<MovieData>(initialData)
+	const formErrors = handleMoviesFormErrors(formData)
 
 	const [addNewMovie] = useAddNewMovieMutation()
 	const [updateMovie] = useUpdateMovieMutation()
 
-	const { data: existingMovie, isSuccess } = useGetMovieByIdQuery(
+	const {
+		data: existingMovie,
+		isSuccess,
+		isLoading,
+	} = useGetMovieByIdQuery(
 		{ id: id ?? '' },
 		{
 			skip: mode !== 'edit' || !id,
@@ -42,7 +48,7 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		}
 	}, [mode, isSuccess, existingMovie])
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = e.target
 		setFormData((prev) => ({
 			...prev,
@@ -52,7 +58,7 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 
 	const handleActorChange = (
 		index: number,
-		e: React.ChangeEvent<HTMLInputElement>
+		e: ChangeEvent<HTMLInputElement>
 	) => {
 		const updated = [...formData.actors]
 		updated[index] = e.target.value
@@ -70,8 +76,15 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		}))
 	}
 
-	const handleSubmit = async (e: React.FormEvent) => {
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault()
+
+		const isEmptyErrorObject = Object.values(formErrors).every(
+			(e) => e === undefined
+		)
+		if (!isEmptyErrorObject) {
+			return
+		}
 
 		const cleanedActors = formData.actors.filter((e) => e.trim() !== '')
 
@@ -82,12 +95,7 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 
 		if (mode === 'edit' && id && existingMovie?.data) {
 			const original = existingMovie.data
-			const unchanged =
-				formData.title === original.title &&
-				formData.year === original.year &&
-				formData.format === original.format &&
-				JSON.stringify(cleanedActors) ===
-					JSON.stringify(original.actors.map((a) => a.name))
+			const unchanged = JSON.stringify(payload) === JSON.stringify(original)
 
 			if (unchanged) {
 				navigate(ROUTES.HOME)
@@ -109,5 +117,7 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		handleAddActor,
 		handleDeleteActor,
 		handleSubmit,
+		formErrors,
+		isLoading,
 	}
 }

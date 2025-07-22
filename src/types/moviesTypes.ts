@@ -1,3 +1,6 @@
+import type { Dispatch, SetStateAction } from 'react'
+import type { OrderMode, SearchMode } from '../utils/constants'
+
 export interface MovieData {
 	title: string
 	year: number
@@ -46,4 +49,24 @@ export interface SearchParams {
 	order: 'ASC' | 'DESC'
 	limit: number
 	offset: number
+}
+
+export interface MovieModeProps {
+	mode: 'edit' | 'create'
+}
+
+export interface RadioFilterProps {
+	value: SearchMode
+	onChange: (value: SearchMode | OrderMode) => void
+	mode: 'search' | 'order' | 'sort'
+	type: string
+	setSearchParams: Dispatch<SetStateAction<SearchParams>>
+	setSearchInput?: Dispatch<SetStateAction<string>>
+}
+
+export interface MoviesErrors {
+	title?: string
+	year?: string
+	format?: string
+	actors?: string[]
 }

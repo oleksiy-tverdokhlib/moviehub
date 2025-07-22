@@ -32,7 +32,7 @@ const Header = ({ isAuth }: AuthStatus) => {
 							<span className={styles.username}> {parsedName}</span>
 							<span className={styles.logoutBtn} onClick={handleLogout}>
 								<span>Logout</span>
-								<Icon id={'logout'} />
+								<Icon id="logout" />
 							</span>
 						</div>
 					)}

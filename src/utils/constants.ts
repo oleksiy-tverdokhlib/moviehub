@@ -14,6 +14,7 @@ export const DELAY = 700
 export const SEARCH_MODES = ['actor', 'title', 'search']
 export const ORDER_MODES = ['ASC', 'DESC']
 export const SORT_MODES = ['title', 'year']
+export const FORMAT= ['VHS', 'DVD', 'Blu-Ray']
 
 export type SearchMode = (typeof SEARCH_MODES)[number]
 export type OrderMode = (typeof ORDER_MODES)[number]

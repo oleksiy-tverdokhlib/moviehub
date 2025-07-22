@@ -24,14 +24,16 @@ const MovieItem = (props: Movie) => {
 	return (
 		<div className={styles.item}>
 			<Link className={styles.info} to={`/movies/${id}`}>
-				<h4>{title}</h4>
+				<strong>
+					<h4>{title}</h4>
+				</strong>
 				<span>{format}</span>
 				<span>{year}</span>
 			</Link>
 
 			<div className={styles.actionBtns}>
-				<Icon id={'edit'} onClick={handleRedirectEdit} />
-				<Icon id={'delete'} onClick={handleDelete} />
+				<Icon id="edit" onClick={handleRedirectEdit} />
+				<Icon id="delete" onClick={handleDelete} />
 			</div>
 		</div>
 	)

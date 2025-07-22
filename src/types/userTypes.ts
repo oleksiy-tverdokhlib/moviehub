@@ -4,8 +4,8 @@ export interface ILogin {
 }
 
 export interface ISignUp extends ILogin {
-    name: string
-    confirmPassword: string
+	name: string
+	confirmPassword: string
 }
 
 export interface IFormData {
@@ -13,4 +13,8 @@ export interface IFormData {
 	password: string
 	name?: string
 	confirmPassword?: string
+}
+
+export interface AuthModeProps {
+	mode: 'login' | 'signup'
 }

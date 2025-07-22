@@ -1,16 +1,16 @@
-import { useState } from 'react'
-import styles from './Home.module.css'
-import type { OrderMode, SearchMode } from '../../utils/constants'
-import SearchBar from './SearchBar'
-import SearchSelect from './SearchSelect'
+import { useState, type Dispatch, type SetStateAction } from 'react'
 import type { SearchParams } from '../../types/moviesTypes'
+import type { OrderMode, SearchMode } from '../../utils/constants'
+import styles from './Home.module.css'
 import MovieFileForm from './MovieFileForm'
+import SearchBar from './SearchBar'
+import SearchFilters from './SearchFilters'
 
-interface Props {
-	setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>
+interface SidebarProps {
+	setSearchParams: Dispatch<SetStateAction<SearchParams>>
 }
 
-const Sidebar = ({ setSearchParams }: Props) => {
+const Sidebar = ({ setSearchParams }: SidebarProps) => {
 	const [searchInput, setSearchInput] = useState('')
 	const [selectedOption, setSelectedOption] = useState<SearchMode>('actor')
 	const [orderMode, setOrderMode] = useState<OrderMode>('ASC')
@@ -24,7 +24,7 @@ const Sidebar = ({ setSearchParams }: Props) => {
 				searchInput={searchInput}
 				setSearchInput={setSearchInput}
 			/>
-			<SearchSelect
+			<SearchFilters
 				value={selectedOption}
 				onChange={setSelectedOption}
 				mode={'search'}
@@ -32,15 +32,14 @@ const Sidebar = ({ setSearchParams }: Props) => {
 				setSearchParams={setSearchParams}
 				setSearchInput={setSearchInput}
 			/>
-
-			<SearchSelect
+			<SearchFilters
 				value={sortMode}
 				onChange={setSortMode}
 				mode={'sort'}
 				type="Choose sort mode"
 				setSearchParams={setSearchParams}
 			/>
-			<SearchSelect
+			<SearchFilters
 				value={orderMode}
 				onChange={setOrderMode}
 				mode={'order'}

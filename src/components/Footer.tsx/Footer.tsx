@@ -12,7 +12,7 @@ const Footer = () => {
 					target="_blank"
 				>
 					<span>oleksiy-tverdokhlib</span>
-					<Icon id={'github'} />
+					<Icon id="github" />
 				</a>
 			</div>
 		</footer>

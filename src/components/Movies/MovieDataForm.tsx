@@ -1,14 +1,12 @@
 import { useNavigate } from 'react-router-dom'
+import { useMovieForm } from '../../hooks/useMovieForm'
+import type { MovieModeProps } from '../../types/moviesTypes'
 import { ROUTES } from '../../utils/constants'
 import ActorList from '../ActorList/ActorList'
-import { useMovieForm } from '../../hooks/useMovieForm'
 import Icon from '../Icon/Icon'
 import TextInput from '../TextInput/TextInput'
 import styles from './Movie.module.css'
-
-export interface MovieModeProps {
-	mode: 'edit' | 'create'
-}
+import Loader from '../Loader/Loader'
 
 const MovieDataForm = ({ mode }: MovieModeProps) => {
 	const navigate = useNavigate()
@@ -19,11 +17,14 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 		handleAddActor,
 		handleDeleteActor,
 		handleSubmit,
+		formErrors,
+		isLoading,
 	} = useMovieForm({ mode })
 
 	const handleNavigete = () => {
 		navigate(ROUTES.HOME)
 	}
+	if (isLoading) return <Loader />
 
 	return (
 		<div className={styles.container}>
@@ -40,6 +41,7 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 					label="Title"
 					value={formData.title}
 					onChange={handleChange}
+					error={formErrors.title}
 				/>
 
 				<TextInput
@@ -48,6 +50,7 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 					label="Year"
 					value={formData.year}
 					onChange={handleChange}
+					error={formErrors.year}
 				/>
 
 				<TextInput
@@ -55,6 +58,7 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 					label="Format"
 					value={formData.format}
 					onChange={handleChange}
+					error={formErrors.format}
 				/>
 
 				<ActorList
@@ -62,6 +66,7 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 					onChange={handleActorChange}
 					onAdd={handleAddActor}
 					onDelete={handleDeleteActor}
+					errors={formErrors.actors}
 				/>
 
 				<button type="submit">{mode === 'edit' ? 'Save' : 'Add Movie'} </button>

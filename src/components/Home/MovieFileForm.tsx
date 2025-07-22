@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, type ChangeEvent, type SyntheticEvent } from 'react'
 import { useImportMoviesMutation } from '../../services/movies'
 
 const MovieFileForm = () => {
@@ -6,7 +6,7 @@ const MovieFileForm = () => {
 	const fileInputRef = useRef<HTMLInputElement | null>(null)
 	const [file, setFile] = useState<File | null>(null)
 
-	const handleOnSubmit = (e: React.SyntheticEvent) => {
+	const handleOnSubmit = (e: SyntheticEvent) => {
 		e.preventDefault()
 		if (file) {
 			importMovies(file)
@@ -14,7 +14,7 @@ const MovieFileForm = () => {
 		}
 	}
 
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files.length > 0) {
 			setFile(e.target.files[0])
 		}

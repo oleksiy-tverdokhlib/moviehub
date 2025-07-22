@@ -8,16 +8,21 @@ export const useIsAuth = () => {
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
 
+	const token = localStorage.getItem('token')
 	const isAuth = useAppSelector((state) => state.user.currentUser?.status)
 
 	useEffect(() => {
-		const token = localStorage.getItem('token')
-
-		if (token && !isAuth) {
+		if (!!token && !!isAuth) {
+			navigate(ROUTES.HOME)
+			return
+		} else if (token && !isAuth) {
 			dispatch(login())
+		} else {
+			navigate(ROUTES.LOGIN)
+			return
 		}
 		navigate(ROUTES.HOME)
-	}, [isAuth])
+	}, [isAuth, token])
 
 	return isAuth
 }

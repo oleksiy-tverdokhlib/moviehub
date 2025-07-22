@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
 import { useAppDispatch } from '../features/store'
-import { createUser, loginUser } from '../features/user/userSlice'
-import type { IFormData, ILogin, ISignUp } from '../types/userTypes'
-import { ROUTES } from '../utils/constants'
-import type { AuthModeProps } from '../components/Login&SignUp/AuthForm'
-import { useNavigate } from 'react-router-dom'
+import { createUser, loginUser, setNoError } from '../features/user/userSlice'
+import type {
+	AuthModeProps,
+	IFormData,
+	ILogin,
+	ISignUp,
+} from '../types/userTypes'
 
 const initialData: IFormData = {
 	email: '',
@@ -15,17 +17,17 @@ const initialData: IFormData = {
 
 export const useAuthForm = ({ mode }: AuthModeProps) => {
 	const dispatch = useAppDispatch()
-	const navigate = useNavigate()
 
 	const [data, setData] = useState<IFormData>(initialData)
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		dispatch(setNoError())
 		const { id, value } = e.target
 		setData((prev) => ({ ...prev, [id]: value }))
 	}
 
 	const handleSubmit = (
-		e: React.FormEvent<HTMLFormElement>,
+		e: FormEvent<HTMLFormElement>,
 		fields: { id: keyof IFormData }[]
 	) => {
 		e.preventDefault()
@@ -45,10 +47,12 @@ export const useAuthForm = ({ mode }: AuthModeProps) => {
 			dispatch(loginUser(data as ILogin))
 			localStorage.setItem('userName', JSON.stringify(data.email))
 		}
-
 		setData(initialData)
-		navigate(ROUTES.HOME)
 	}
+	
+	useEffect(() => {
+		dispatch(setNoError())
+	}, [mode])
 
 	return { data, handleChange, handleSubmit }
 }

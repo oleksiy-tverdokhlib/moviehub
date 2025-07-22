@@ -1,14 +1,19 @@
-import { useEffect } from 'react'
+import {
+	useEffect,
+	type ChangeEvent,
+	type Dispatch,
+	type SetStateAction,
+} from 'react'
 import { useSearchDebounce } from '../../hooks/useSearchDebounce'
 import type { SearchParams } from '../../types/moviesTypes'
 import { DELAY, type SearchMode } from '../../utils/constants'
 import TextInput from '../TextInput/TextInput'
 
-export interface SearchParamsProps {
+interface SearchParamsProps {
 	mode: SearchMode
-	setSearchParams: React.Dispatch<React.SetStateAction<SearchParams>>
+	setSearchParams: Dispatch<SetStateAction<SearchParams>>
 	searchInput: string
-	setSearchInput: React.Dispatch<React.SetStateAction<string>>
+	setSearchInput: Dispatch<SetStateAction<string>>
 }
 
 const SearchBar = ({
@@ -19,7 +24,7 @@ const SearchBar = ({
 }: SearchParamsProps) => {
 	const debouncedValue = useSearchDebounce(searchInput, DELAY)
 
-	const handleOnChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleOnChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearchInput(e.target.value)
 	}
 
@@ -35,7 +40,7 @@ const SearchBar = ({
 		<div>
 			<TextInput
 				type="text"
-				placeholder={'Search for a movie'}
+				placeholder="Search for a movie"
 				value={searchInput}
 				onChange={handleOnChangeSearch}
 			/>

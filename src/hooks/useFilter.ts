@@ -11,7 +11,6 @@ export const useFilter = () => {
 		limit: 10,
 		offset: 0,
 	})
-	console.log(searchData)
 
 	const createSearchString = (params: SearchParams) => {
 		let searchStr = ''

@@ -1,11 +1,9 @@
-import type { IFormData } from '../../types/userTypes'
+import { useSelector } from 'react-redux'
+import type { AuthModeProps, IFormData } from '../../types/userTypes'
 import { useAuthForm } from '../../hooks/useAuthForm'
 import TextInput from '../TextInput/TextInput'
 import styles from './Login&SignUp.module.css'
-
-export interface AuthModeProps {
-	mode: 'login' | 'signup'
-}
+import type { RootState } from '../../features/store'
 
 interface AuthField {
 	id: keyof IFormData
@@ -27,8 +25,8 @@ const signUpFields: AuthField[] = [
 
 const AuthForm = ({ mode }: AuthModeProps) => {
 	const fields = mode === 'login' ? loginFields : signUpFields
-
 	const { data, handleChange, handleSubmit } = useAuthForm({ mode })
+	const { error } = useSelector((state: RootState) => state.user)
 
 	return (
 		<div className={styles.loginContainer}>
@@ -37,6 +35,14 @@ const AuthForm = ({ mode }: AuthModeProps) => {
 				className={styles.loginForm}
 			>
 				<h3>{mode === 'login' ? 'Sign In to MoviesHub' : 'Sign Up'}</h3>
+
+				{error?.error && (
+					<div className={styles.errorMessage}>
+						<p>{error?.error.code}</p>
+						<p>Wrong field values. Try again</p>
+					</div>
+				)}
+
 				{fields.map(({ id, label, type }) => (
 					<TextInput
 						key={id}
@@ -47,6 +53,7 @@ const AuthForm = ({ mode }: AuthModeProps) => {
 						onChange={handleChange}
 					/>
 				))}
+
 				<button type="submit" className={styles.submitBtn}>
 					{mode === 'login' ? 'Log In' : 'Sign Up'}
 				</button>
@@ -54,4 +61,5 @@ const AuthForm = ({ mode }: AuthModeProps) => {
 		</div>
 	)
 }
+
 export default AuthForm
