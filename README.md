@@ -2,7 +2,7 @@
 
 > 🇺🇦 Read this in [Ukrainian](README_UA.md)
 
-This is a frontend application for browsing and managing movies, built with **React + Vite** and served via **Nginx**.
+This is a frontend application for browsing and managing movies, built with **ReactTS + Redux Toolkit + Vite** and served via **Nginx**.
 
 ---
 
@@ -16,10 +16,14 @@ This is a frontend application for browsing and managing movies, built with **Re
 
 ### 1. Run the Backend
 
+Open a terminal (or Docker UI) and run the following commands one by one **in a separate window**:
+
 ```bash
 docker pull webbylabhub/movies
 docker run --name movies-back -p 8000:8000 webbylabhub/movies
 ```
+
+> ⚠️ Do **not** close the terminal window after running the backend — keep it open.
 
 > **Note:** Make sure the backend is available at `http://localhost:8000/api/v1`, as the frontend will send requests to this address.
 
@@ -27,10 +31,14 @@ docker run --name movies-back -p 8000:8000 webbylabhub/movies
 
 ### 2. Run the Frontend
 
+Open a **new terminal window** (or use Docker UI) and run the following:
+
 ```bash
 docker pull alexhavier/movies
 docker run --name movies -p 3000:3000 -e API_URL=http://localhost:8000/api/v1 alexhavier/movies
 ```
+
+> ⚠️ Again, keep this terminal window open after starting the container.
 
 ---
 
@@ -43,10 +51,10 @@ Register a new user. You can use your own data or the following example:
 
 ```json
 {
-  "email": "petro@gmail.com",
-  "name": "Petrov Petro",
-  "password": "super-password",
-  "confirmPassword": "super-password"
+	"email": "petro@gmail.com",
+	"name": "Petrov Petro",
+	"password": "super-password",
+	"confirmPassword": "super-password"
 }
 ```
 
@@ -54,12 +62,12 @@ Register a new user. You can use your own data or the following example:
 
 ## 📦 Features
 
-1. ➕ Add a movie  
-2. 🗑️ Delete a movie  
-3. ✏️ View and edit movie details  
-4. 📊 List movies with sorting by title or release year  
-5. 🔍 Search for a movie by title  
-6. 🎭 Search for a movie by actor name  
+1. ➕ Add a movie
+2. 🗑️ Delete a movie
+3. ✏️ View and edit movie details
+4. 📊 List movies with sorting by title or release year
+5. 🔍 Search for a movie by title
+6. 🎭 Search for a movie by actor name
 7. 📁 Import movies from a `.txt` file via the web interface (`sample_movies.txt` provided)
 
 > 📄 Sample import file:  
@@ -79,16 +87,31 @@ Register a new user. You can use your own data or the following example:
 
 ## 🔁 Alternative Setup (from source)
 
+### 1. Start the backend server
+
+Open a terminal (or Docker UI) and run:
+
+```bash
+docker pull webbylabhub/movies
+docker run --name movies-back -p 8000:8000 webbylabhub/movies
+```
+
+> ⚠️ Keep the terminal open after running the server.
+
+---
+
+### 2. Clone and run the frontend
+
+You can do this in a terminal or your favorite IDE:
+
 ```bash
 git clone https://github.com/oleksiy-tverdokhlib/moviehub
 cd moviehub
-
-docker build -t alexhavier/movies --build-arg API_URL=http://localhost:8000/api/v1 .
-
-docker run --name movies -p 3000:3000 -e API_URL=http://localhost:8000/api/v1 alexhavier/movies
+npm install
+npm run dev
 ```
 
-> ⚠️ **Important:** Make sure to include the dot `.` at the end of the `docker build` command — it tells Docker to build from the current directory.
+Open the development server in your browser. The link should appear in the terminal (e.g. [http://localhost:5173](http://localhost:5173)).
 
 ---
 
