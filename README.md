@@ -1,69 +1,98 @@
-# React + TypeScript + Vite
+# 🎬 MovieHub Frontend Docker Image
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> 🇺🇦 Read this in [Ukrainian](README_UA.md)
 
-Currently, two official plugins are available:
+This is a frontend application for browsing and managing movies, built with **React + Vite** and served via **Nginx**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Quick Start
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### ⚙️ Requirements
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- [Docker](https://www.docker.com/) installed
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Run the Backend
+
+```bash
+docker pull webbylabhub/movies
+docker run --name movies-back -p 8000:8000 webbylabhub/movies
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+> **Note:** Make sure the backend is available at `http://localhost:8000/api/v1`, as the frontend will send requests to this address.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2. Run the Frontend
+
+```bash
+docker pull alexhavier/movies
+docker run --name movies -p 3000:3000 -e API_URL=http://localhost:8000/api/v1 alexhavier/movies
 ```
+
+---
+
+### 3. Open the App
+
+After launching both the backend and frontend, open your browser and go to:  
+👉 [http://localhost:3000/signup](http://localhost:3000/signup)
+
+Register a new user. You can use your own data or the following example:
+
+```json
+{
+  "email": "petro@gmail.com",
+  "name": "Petrov Petro",
+  "password": "super-password",
+  "confirmPassword": "super-password"
+}
+```
+
+---
+
+## 📦 Features
+
+1. ➕ Add a movie  
+2. 🗑️ Delete a movie  
+3. ✏️ View and edit movie details  
+4. 📊 List movies with sorting by title or release year  
+5. 🔍 Search for a movie by title  
+6. 🎭 Search for a movie by actor name  
+7. 📁 Import movies from a `.txt` file via the web interface (`sample_movies.txt` provided)
+
+> 📄 Sample import file:  
+> [sample_movies.txt (Gist)](https://gist.github.com/k0stik/3028d42973544dd61c3b4ad863378cad)
+
+---
+
+## 📘 API
+
+- 🔧 Backend server is available as a Docker image:  
+  [webbylabhub/movies (Docker Hub)](https://hub.docker.com/r/webbylabhub/movies)
+
+- 📑 API Documentation:  
+  [Postman Collection](https://documenter.getpostman.com/view/356840/TzkyLeVK)
+
+---
+
+## 🔁 Alternative Setup (from source)
+
+```bash
+git clone https://github.com/oleksiy-tverdokhlib/moviehub
+cd moviehub
+
+docker build -t alexhavier/movies --build-arg API_URL=http://localhost:8000/api/v1 .
+
+docker run --name movies -p 3000:3000 -e API_URL=http://localhost:8000/api/v1 alexhavier/movies
+```
+
+> ⚠️ **Important:** Make sure to include the dot `.` at the end of the `docker build` command — it tells Docker to build from the current directory.
+
+---
+
+## 🧑‍💻 Author
+
+**Oleksiy Tverdokhlib**  
+[GitHub Profile](https://github.com/oleksiy-tverdokhlib)
