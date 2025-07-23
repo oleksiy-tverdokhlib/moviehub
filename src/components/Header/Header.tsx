@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom'
 import { useAppDispatch } from '../../features/store'
 import { logout } from '../../features/user/userSlice'
 import type { AuthStatus } from '../../types/moviesTypes'
+import Icon from '../common/Icon/Icon'
 import styles from './Header.module.css'
-import Icon from '../../common/Icon/Icon'
+
 
 const Header = ({ isAuth }: AuthStatus) => {
 	const dispatch = useAppDispatch()
