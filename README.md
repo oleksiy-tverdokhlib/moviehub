@@ -1,8 +1,13 @@
-# 🎬 MovieHub Frontend Docker Image
+# 🎬 MovieHub Full-Stack Docker Image
 
 > 🇺🇦 Read this in [Ukrainian](README_UA.md)
 
-This is a frontend application for browsing and managing movies, built with **ReactTS + Redux Toolkit + Vite** and served via **Nginx**.
+A **fully containerized full-stack movie app**, combining:
+- **Frontend**: React (TypeScript) + Redux Toolkit + Vite (served with Nginx)
+- **Backend**: Node.js API
+- **Database**: MySQL 8.0.25
+
+All services are bundled in **one Docker image** for simple, one-command deployment.
 
 ---
 
@@ -10,51 +15,44 @@ This is a frontend application for browsing and managing movies, built with **Re
 
 ### ⚙️ Requirements
 
-- [Docker](https://www.docker.com/) installed
+- [Docker](https://www.docker.com/) installed on your system
 
 ---
 
-### 1. Run the Backend
+### ▶️ 1. Run the Application
 
-Open a terminal (or Docker UI) and run the following commands one by one **in a separate window**:
-
-```bash
-docker pull webbylabhub/movies
-docker run --name movies-back -p 8000:8000 webbylabhub/movies
-```
-
-> ⚠️ Do **not** close the terminal window after running the backend — keep it open.
-
-> **Note:** Make sure the backend is available at `http://localhost:8000/api/v1`, as the frontend will send requests to this address.
-
----
-
-### 2. Run the Frontend
-
-Open a **new terminal window** (or use Docker UI) and run the following:
+Just run this command for pulling and **single comand** for runnig movies image:
 
 ```bash
 docker pull alexhavier/movies
-docker run --name movies -p 3000:3000 -e API_URL=http://localhost:8000/api/v1 alexhavier/movies
+
+docker run --name movies -p 3000:3000 -e API_URL=http://localhost:3000/api/v1 alexhavier/movies
 ```
 
-> ⚠️ Again, keep this terminal window open after starting the container.
+> ⚠️ **That’s it!** No need to start backend, frontend, or database separately.  
+> The initialization may take up to 30–60 seconds.
+
+The container will automatically:
+- ✅ Start MySQL database
+- ✅ Run migrations & seed the DB
+- ✅ Launch the Node.js API
+- ✅ Serve the frontend through Nginx
 
 ---
 
-### 3. Open the App
+### 🌐 2. Open the App
 
-After launching both the backend and frontend, open your browser and go to:  
+Once initialized, open:  
 👉 [http://localhost:3000/signup](http://localhost:3000/signup)
 
-Register a new user. You can use your own data or the following example:
+Create an account with your own data or use:
 
 ```json
 {
-	"email": "petro@gmail.com",
-	"name": "Petrov Petro",
-	"password": "super-password",
-	"confirmPassword": "super-password"
+  "email": "petro@gmail.com",
+  "name": "Petrov Petro",
+  "password": "super-password",
+  "confirmPassword": "super-password"
 }
 ```
 
@@ -85,11 +83,29 @@ Register a new user. You can use your own data or the following example:
 
 ---
 
+## 🔧 Advanced Usage
+
+### 📦 Check Container Status
+
+```bash
+# List running containers
+docker ps
+
+# View logs
+docker logs movies
+
+# Stop the container
+docker stop movies
+
+# Remove the container
+docker rm movies
+```
+
+---
+
 ## 🔁 Alternative Setup (from source)
 
 ### 1. Start the backend server
-
-Open a terminal (or Docker UI) and run:
 
 ```bash
 docker pull webbylabhub/movies
@@ -102,8 +118,6 @@ docker run --name movies-back -p 8000:8000 webbylabhub/movies
 
 ### 2. Clone and run the frontend
 
-You can do this in a terminal or your favorite IDE:
-
 ```bash
 git clone https://github.com/oleksiy-tverdokhlib/moviehub
 cd moviehub
@@ -111,7 +125,18 @@ npm install
 npm run dev
 ```
 
-Open the development server in your browser. The link should appear in the terminal (e.g. [http://localhost:5173](http://localhost:5173)).
+You can also create image out of front app. 
+
+```bash
+docker build -t alexhavier/movies --build-arg API_URL=http://localhost:8000/api/v1 .
+
+docker run --name frontend -p 3000:3000 -e API_URL=http://localhost:8000/api/v1 alexhavier/movies
+```
+> ⚠️ Change alexhavier to your active docker account name.
+
+
+Once initialized, open:
+👉 http://localhost:3000/signup
 
 ---
 
