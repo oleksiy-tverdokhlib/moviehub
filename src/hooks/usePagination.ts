@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import type { PaginationProps } from '../interfaces/movies'
 import { MOVIES_PER_PAGES } from '../shared/constants'
+import { getPageNumbers } from '../shared/getPaginationNumbers'
+
 
 export const usePagination = ({
 	totalItems,
@@ -9,18 +11,20 @@ export const usePagination = ({
 	const totalPages = Math.ceil(totalItems / MOVIES_PER_PAGES)
 	const [currentPage, setCurrentPage] = useState(0)
 
+	const pageNumbers = getPageNumbers(totalPages, currentPage)
+
 	const handleNextPage = () => {
-		if (currentPage < totalPages) {
+		if (currentPage <= totalPages) {
 			setSearchParams((prev) => {
-				return { ...prev, offset: currentPage * MOVIES_PER_PAGES + 1 }
+				return { ...prev, offset: (currentPage + 1) * MOVIES_PER_PAGES }
 			})
 			setCurrentPage((prev) => prev + 1)
 		}
 	}
 	const handlePreviousPage = () => {
-		if (currentPage > 1) {
+		if (currentPage >= 1) {
 			setSearchParams((prev) => {
-				return { ...prev, offset: currentPage * MOVIES_PER_PAGES - 1 }
+				return { ...prev, offset: (currentPage - 1) * MOVIES_PER_PAGES }
 			})
 			setCurrentPage((prev) => prev - 1)
 		}
@@ -36,8 +40,9 @@ export const usePagination = ({
 	return {
 		totalPages,
 		currentPage,
+		pageNumbers,
+		handleNextPage,
 		handlePageClick,
 		handlePreviousPage,
-		handleNextPage,
 	}
 }

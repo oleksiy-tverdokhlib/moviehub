@@ -24,10 +24,13 @@
 	color: white;
 }
 
-.pageNumber:disabled,
-.arrow:disabled {
+.pageNumber:disabled {
 	cursor: default;
 	background-color: darkviolet;
+}
+.arrow:disabled {
+	cursor: default;
+	background-color: gray;
 }
 
 .pageNumber:disabled {

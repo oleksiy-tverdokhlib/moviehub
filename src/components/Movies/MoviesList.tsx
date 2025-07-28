@@ -1,4 +1,4 @@
-import { type Dispatch, type SetStateAction } from 'react'
+import { useEffect, type Dispatch, type SetStateAction } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetMoviesListQuery } from '../../features/movies/movies'
 import { useIsAuth } from '../../hooks/useIsAuth'
@@ -36,6 +36,14 @@ const MoviesList = ({ queryArgs, setSearchParams }: MoviesListProps) => {
 	const toggleAddNewMovie = () => {
 		navigate(ROUTES.CREATE)
 	}
+
+	useEffect(() => {
+		if (total && total <= 10) {
+			setSearchParams((prev) => {
+				return { ...prev, offset: 0 }
+			})
+		}
+	}, [moviesResponse])
 
 	if (isLoading || !total || !list) return <Loader />
 	if (isError) return <ErrorElement error={error} />
