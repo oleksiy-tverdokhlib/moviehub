@@ -10,6 +10,7 @@ const Footer = () => {
 					href={'https://github.com/oleksiy-tverdokhlib/moviehub'}
 					className={styles.github}
 					target="_blank"
+					title="GitHub repo"
 				>
 					<span>oleksiy-tverdokhlib</span>
 					<Icon id="github" />

@@ -1,16 +1,19 @@
 import { useState } from 'react'
-import type { SearchParams } from '../types/moviesTypes'
+import type { SearchParams } from '../../interfaces/movies'
+import { MOVIES_PER_PAGES } from '../../shared/constants'
+
+const initialArg: SearchParams = {
+	actor: '',
+	title: '',
+	search: '',
+	sort: 'title',
+	order: 'ASC',
+	limit: MOVIES_PER_PAGES,
+	offset: 0,
+}
 
 export const useFilter = () => {
-	const [searchData, setSearchParams] = useState<SearchParams>({
-		actor: '',
-		title: '',
-		search: '',
-		sort: 'title',
-		order: 'ASC',
-		limit: 10,
-		offset: 0,
-	})
+	const [searchData, setSearchParams] = useState(initialArg)
 
 	const createSearchString = (params: SearchParams) => {
 		let searchStr = ''

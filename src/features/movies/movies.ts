@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { RootState } from '../store'
 import type {
-	Movie,
 	MovieData,
+	MovieImportResponse,
 	MovieListResponse,
 	MovieResponse,
 	Status,
-} from '../../types/moviesTypes'
-import { API_ENDPOINTS } from '../../utils/constants'
+} from '../../interfaces/movies'
+import { API_ENDPOINTS } from '../../shared/constants'
+import type { RootState } from '../store'
 
 export const movieApi = createApi({
 	reducerPath: 'movieApi',
@@ -65,7 +65,7 @@ export const movieApi = createApi({
 			invalidatesTags: [{ type: 'Movie', id: 'LIST' }],
 		}),
 
-		importMovies: build.mutation<Movie[], File>({
+		importMovies: build.mutation<MovieImportResponse, File>({
 			query: (file) => {
 				const formData = new FormData()
 				formData.append('movies', file)

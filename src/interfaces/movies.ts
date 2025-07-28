@@ -1,9 +1,9 @@
 import type { Dispatch, SetStateAction } from 'react'
-import type { OrderMode, SearchMode } from '../utils/constants'
+import type { OrderMode, SearchMode } from '../shared/constants'
 
 export interface MovieData {
 	title: string
-	year: number
+	year: string | number
 	format: string
 	actors: string[]
 }
@@ -14,6 +14,7 @@ export interface Actor {
 	createdAt: string
 	updatedAt: string
 }
+
 export interface Movie {
 	id: number
 	title: string
@@ -29,16 +30,41 @@ export interface Status {
 
 export interface MovieResponse {
 	data: Movie
-	status: Status
+	status: 0 | 1
+	error?: { code: number; message: string }
 }
 
 export interface MovieListResponse {
 	data: Movie[]
+	meta: {
+		total: number
+	}
 	status: Status
 }
 
 export interface AuthStatus {
 	isAuth: number
+}
+
+export interface MovieModeProps {
+	mode: 'edit' | 'create'
+}
+
+export interface MoviesErrors {
+	title?: string
+	year?: string
+	format?: string
+	actors?: string[]
+}
+
+export interface MovieImportResponse {
+	data?: Movie[]
+	meta?: {
+		imported: number
+		total: number
+	}
+	error?: { code: number; message: string }
+	status: 1 | 0
 }
 
 export interface SearchParams {
@@ -51,10 +77,6 @@ export interface SearchParams {
 	offset: number
 }
 
-export interface MovieModeProps {
-	mode: 'edit' | 'create'
-}
-
 export interface RadioFilterProps {
 	value: SearchMode
 	onChange: (value: SearchMode | OrderMode) => void
@@ -64,9 +86,14 @@ export interface RadioFilterProps {
 	setSearchInput?: Dispatch<SetStateAction<string>>
 }
 
-export interface MoviesErrors {
-	title?: string
-	year?: string
-	format?: string
-	actors?: string[]
+export interface PaginationProps {
+	setSearchParams: Dispatch<SetStateAction<SearchParams>>
+	totalItems: number
+}
+
+export interface SearchParamsProps {
+	mode: SearchMode
+	searchInput: string
+	setSearchInput: Dispatch<SetStateAction<string>>
+	setSearchParams: Dispatch<SetStateAction<SearchParams>>
 }

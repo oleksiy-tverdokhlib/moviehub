@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom'
-import { ROUTES } from '../../utils/constants'
+import { ROUTES } from '../../shared/constants'
 import type { JSX } from 'react'
 
 interface ProtectedRouteProps {

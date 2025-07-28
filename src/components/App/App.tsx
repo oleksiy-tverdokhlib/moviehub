@@ -7,7 +7,6 @@ import AppRoutes from './AppRoutes'
 function App() {
 	const isAuth = useIsAuth()
 
-
 	return (
 		<>
 			<Header isAuth={isAuth} />

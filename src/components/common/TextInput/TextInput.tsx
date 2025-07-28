@@ -2,36 +2,55 @@ import type { ChangeEvent } from 'react'
 import styles from './TextInput.module.css'
 
 interface TextInputProps {
-	id?: string
-	label?: string
+	label: string
+	isAuthForm?: boolean
 	type?: string
 	value: string | number
 	onChange: (e: ChangeEvent<HTMLInputElement>) => void
-	placeholder?: string
 	error?: string
+	disabled?: boolean
 }
 
 const TextInput = ({
-	id,
 	label,
-	type = 'text',
 	value,
+	isAuthForm,
 	onChange,
-	placeholder,
 	error,
-}: TextInputProps) => (
-	<div className={styles.inputField}>
-		<label htmlFor={id}>{label && <span>{label}:</span>}</label>
-		<input
-			id={id}
-			type={type}
-			value={value}
-			onChange={onChange}
-			placeholder={placeholder}
-		/>
-		{error && <div className={styles.errorMessage}>{error}</div>}
+	disabled,
+}: TextInputProps) => {
+	const id = label?.toLowerCase()
+	const isInt = Number.isInteger(+label)
 
-	</div>
-)
+	return (
+		<>
+			{disabled ? (
+				<span className="span">
+					{!isInt && `${label}: `} {value}
+				</span>
+			) : (
+				<div className={styles.inputField}>
+					{!isInt && (
+						<label htmlFor={id}>
+							{label != 'search' && <span>{label}:</span>}
+						</label>
+					)}
+
+					<input
+						id={id}
+						type="text"
+						value={value}
+						onChange={onChange}
+						placeholder={`${isAuthForm ? 'Your' : 'Movie'} ${
+							isInt ? 'actor' : id
+						}`}
+					/>
+
+					{error && <div className={styles.errorMessage}>{error}</div>}
+				</div>
+			)}
+		</>
+	)
+}
 
 export default TextInput

@@ -4,8 +4,8 @@ import {
 	type PayloadAction,
 } from '@reduxjs/toolkit'
 import axios from 'axios'
-import type { ILogin, ISignUp } from '../../types/userTypes'
-import { API_ENDPOINTS } from '../../utils/constants'
+import type { ILogin, ISignUp } from '../../interfaces/user'
+import { API_ENDPOINTS } from '../../shared/constants'
 
 interface FieldError {
 	[key: string]: string

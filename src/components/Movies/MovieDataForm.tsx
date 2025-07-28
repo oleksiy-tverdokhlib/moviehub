@@ -1,76 +1,99 @@
-import { useNavigate } from 'react-router-dom'
 import { useMovieForm } from '../../hooks/useMovieForm'
-import type { MovieModeProps } from '../../types/moviesTypes'
-import { ROUTES } from '../../utils/constants'
+import type { MovieModeProps } from '../../interfaces/movies'
+import { isEmptyData } from '../../shared/validation'
 import ActorList from '../common/ActorList/ActorList'
 import Icon from '../common/Icon/Icon'
 import Loader from '../common/Loader/Loader'
 import TextInput from '../common/TextInput/TextInput'
 import styles from './Movie.module.css'
+import MovieMessages from './MovieMessages'
 
 const MovieDataForm = ({ mode }: MovieModeProps) => {
-	const navigate = useNavigate()
 	const {
+		isSure,
+		isAdded,
 		formData,
-		handleChange,
-		handleActorChange,
-		handleAddActor,
-		handleDeleteActor,
-		handleSubmit,
-		formErrors,
+		errorCode,
+		wasEdited,
 		isLoading,
+		formErrors,
+		isFormLocked,
+		existingMovie,
+		wasFormChanged,
+		addedMovieData,
+		isEditedSuccess,
+		handleEdit,
+		handleChange,
+		handleSubmit,
+		handleNavigate,
+		handleAddActor,
+		handleActorChange,
+		handleDeleteActor,
 	} = useMovieForm({ mode })
-
-	const handleNavigete = () => {
-		navigate(ROUTES.HOME)
-	}
 
 	if (isLoading) return <Loader />
 
 	return (
 		<div className={styles.container}>
 			<form className={styles.movieForm} onSubmit={handleSubmit}>
-				<div className={styles.return} onClick={handleNavigete}>
-					<Icon id={'arrow-left'} />
+				<div className={styles.return} onClick={handleNavigate}>
+					<Icon id="arrow-left" />
 					<span>Return</span>
 				</div>
 
-				<h3>{mode === 'edit' ? 'Edit Movie' : 'Add New Movie'}</h3>
+				<MovieMessages
+					wasFormChanged={wasFormChanged}
+					isSure={isSure}
+					errorCode={errorCode}
+					isAdded={isAdded}
+					addedTitle={addedMovieData?.data?.title}
+					isEditedSuccess={isEditedSuccess}
+					isFormUnchanged={isEmptyData(formData, existingMovie) && wasEdited}
+				/>
+
+				{!isAdded && (
+					<h3>{mode === 'edit' ? 'Edit Movie' : 'Add New Movie'}</h3>
+				)}
 
 				<TextInput
-					id="title"
 					label="Title"
 					value={formData.title}
 					onChange={handleChange}
 					error={formErrors.title}
+					disabled={isFormLocked}
 				/>
-
 				<TextInput
-					id="year"
-					type="number"
 					label="Year"
 					value={formData.year}
 					onChange={handleChange}
 					error={formErrors.year}
+					disabled={isFormLocked}
 				/>
-
 				<TextInput
-					id="format"
 					label="Format"
 					value={formData.format}
 					onChange={handleChange}
 					error={formErrors.format}
+					disabled={isFormLocked}
 				/>
-
 				<ActorList
 					actors={formData.actors}
 					onChange={handleActorChange}
 					onAdd={handleAddActor}
 					onDelete={handleDeleteActor}
 					errors={formErrors.actors}
+					disabled={isFormLocked}
 				/>
 
-				<button type="submit">{mode === 'edit' ? 'Save' : 'Add Movie'} </button>
+				{!(isAdded || wasEdited) && (
+					<button
+						type="submit"
+						disabled={isAdded || isEmptyData(formData, existingMovie)}
+					>
+						{mode === 'edit' ? 'Save' : 'Add Movie'}
+					</button>
+				)}
+				{wasEdited && <button onClick={handleEdit}>Edit</button>}
 			</form>
 		</div>
 	)

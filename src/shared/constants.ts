@@ -15,6 +15,7 @@ export const ROUTES = {
 	MOVIE: '/movies',
 }
 
+export const MOVIES_PER_PAGES = 10
 export const DELAY = 700
 
 export const SEARCH_MODES = ['actor', 'title', 'search']
