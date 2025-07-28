@@ -1,9 +1,16 @@
 import { useImportFile } from '../../hooks/sidebarFilters/useImportFile'
+import Loader from '../common/Loader/Loader'
 import styles from './SideBar.module.css'
 
 const MovieFileForm = () => {
-	const { fileInputRef, file, notification, handleFileChange, handleSubmit } =
-		useImportFile()
+	const {
+		file,
+		isLoading,
+		fileInputRef,
+		notification,
+		handleFileChange,
+		handleSubmit,
+	} = useImportFile()
 
 	return (
 		<form onSubmit={handleSubmit}>
@@ -18,6 +25,7 @@ const MovieFileForm = () => {
 			/>
 
 			{file && <input type="submit" value="Upload" />}
+			{isLoading && <Loader />}
 
 			{notification ? (
 				<div

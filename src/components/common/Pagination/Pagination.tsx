@@ -5,6 +5,7 @@ import styles from './Pagination.module.css'
 const Pagination = ({ totalItems, setSearchParams }: PaginationProps) => {
 	const {
 		totalPages,
+		pageNumbers,
 		currentPage,
 		handleNextPage,
 		handlePageClick,
@@ -15,30 +16,34 @@ const Pagination = ({ totalItems, setSearchParams }: PaginationProps) => {
 		<div className={styles.pagination}>
 			<button
 				className={styles.arrow}
-				disabled={currentPage <= 1}
+				disabled={currentPage <= 0}
 				onClick={handlePreviousPage}
 			>
 				{'<'}
 			</button>
 
 			<div className={styles.list}>
-				{[...Array(totalPages)].map((_, index) => {
-					return (
+				{pageNumbers.map((page, index) =>
+					page === '...' ? (
+						<span key={`dots-${index}`} className={styles.dots}>
+							...
+						</span>
+					) : (
 						<button
+							key={page}
 							className={styles.pageNumber}
-							key={index}
-							disabled={index === currentPage}
-							onClick={() => handlePageClick(index)}
+							disabled={page === currentPage}
+							onClick={() => handlePageClick(page as number)}
 						>
-							{index + 1}
+							{(page as number) + 1}
 						</button>
 					)
-				})}
+				)}
 			</div>
 
 			<button
 				className={styles.arrow}
-				disabled={currentPage >= totalPages}
+				disabled={currentPage + 1 >= totalPages}
 				onClick={handleNextPage}
 			>
 				{'>'}

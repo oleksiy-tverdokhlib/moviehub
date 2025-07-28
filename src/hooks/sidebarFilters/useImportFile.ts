@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useImportMoviesMutation } from '../../features/movies/movies'
 
 export const useImportFile = () => {
@@ -9,7 +9,15 @@ export const useImportFile = () => {
 		text: string
 	} | null>(null)
 
-	const [importMovies, { data, isLoading }] = useImportMoviesMutation()
+	const [importMovies, { data, isLoading, isSuccess }] =
+		useImportMoviesMutation()
+
+	useEffect(() => {
+		const timerId = setTimeout(() => {
+			setNotification(null)
+		}, 10000)
+		return () => clearInterval(timerId)
+	}, [isSuccess])
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const input = e.target
