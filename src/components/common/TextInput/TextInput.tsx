@@ -17,9 +17,12 @@ const TextInput = ({
 	isAuthForm,
 	onChange,
 	error,
+	type,
 	disabled,
 }: TextInputProps) => {
-	const id = label?.toLowerCase()
+	const id =
+		label === 'Confirm Password' ? 'confirmPassword' : label.toLowerCase()
+
 	const isInt = Number.isInteger(+label)
 
 	return (
@@ -38,11 +41,15 @@ const TextInput = ({
 
 					<input
 						id={id}
-						type="text"
+						type={type || 'text'}
 						value={value}
 						onChange={onChange}
 						placeholder={`${isAuthForm ? 'Your' : 'Movie'} ${
-							isInt ? 'actor' : id
+							isInt
+								? 'actor'
+								: id === 'confirmPassword'
+								? 'Confirm Password'
+								: id
 						}`}
 					/>
 

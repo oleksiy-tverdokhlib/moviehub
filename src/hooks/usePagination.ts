@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { PaginationProps } from '../interfaces/movies'
 import { MOVIES_PER_PAGES } from '../shared/constants'
 import { getPageNumbers } from '../shared/getPaginationNumbers'
-
 
 export const usePagination = ({
 	totalItems,
@@ -36,6 +35,11 @@ export const usePagination = ({
 		})
 		setCurrentPage(pagenumber)
 	}
+	useEffect(() => {
+		if (totalPages <= currentPage) {
+			setCurrentPage((prev) => prev - 1)
+		}
+	}, [totalItems])
 
 	return {
 		totalPages,

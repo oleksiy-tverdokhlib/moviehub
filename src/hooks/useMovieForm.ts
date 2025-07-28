@@ -52,10 +52,8 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		isLoading,
 	} = useGetMovieByIdQuery({ id: id ?? '' })
 
-	const [isSure, setIsSure] = useState(false)
 	const isAdded = addedMovieData?.status === 1
 	const isEditedSuccess = editedMovieData?.status === 1
-	const isMovieSuccess = (isAdded || isEditedSuccess) && wasEdited
 	const errorCode = addedMovieData?.error?.code
 	const isFormLocked = isAdded || wasEdited
 
@@ -80,7 +78,6 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 	}, [isEdited, addedMovieData])
 
 	useEffect(() => {
-		setIsSure(false)
 		setWasFormChanged(false)
 	}, [isAdded, isEditedSuccess, formData])
 
@@ -149,28 +146,15 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		}
 	}
 
-	const isFormUntouchedOrSaved = () => {
-		if (mode === 'create') {
-			return isSure || isAdded
-		}
-		return isSure || isMovieSuccess || isEmptyData(formData, existingMovie)
-	}
-
 	const handleNavigate = () => {
-		if (isFormUntouchedOrSaved()) {
-			navigate(ROUTES.HOME)
-		} else {
-			setIsSure(true)
-		}
+		navigate(ROUTES.HOME)
 	}
 
 	const handleEdit = () => {
-		setIsSure(false)
 		setWasEdited(false)
 	}
 
 	return {
-		isSure,
 		isAdded,
 		formData,
 		errorCode,

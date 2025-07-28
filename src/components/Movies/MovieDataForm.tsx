@@ -10,7 +10,6 @@ import MovieMessages from './MovieMessages'
 
 const MovieDataForm = ({ mode }: MovieModeProps) => {
 	const {
-		isSure,
 		isAdded,
 		formData,
 		errorCode,
@@ -43,7 +42,6 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 
 				<MovieMessages
 					wasFormChanged={wasFormChanged}
-					isSure={isSure}
 					errorCode={errorCode}
 					isAdded={isAdded}
 					addedTitle={addedMovieData?.data?.title}
