@@ -1,18 +1,15 @@
-.container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
 .movieForm {
 	width: 300px;
 }
+
 .content {
 	display: flex;
+	width: 100%;
 	flex-direction: column;
 	justify-content: space-between;
 	padding: 20px;
 	border: 1px solid red;
-	flex: 3;
+	flex: 5;
 }
 
 .contentHeader {
@@ -209,9 +206,6 @@
 @media (min-width: 992px) {
 	.list {
 		grid-template-columns: 1fr;
-	}
-	.content {
-		flex: 2;
 	}
 }
 

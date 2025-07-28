@@ -1,40 +1,40 @@
-.home {
+main.home {
+	width: 1200px;
 	display: flex;
 	gap: 30px;
 	padding: 50px 0;
-	width: 1200px;
+}
+
+@media (max-width: 575.98px) {
+	main.home {
+		width: auto;
+		flex-direction: column;
+	}
 }
 
 @media (min-width: 576px) {
-	.home {
+	main.home {
 		width: auto;
 		flex-direction: column;
 	}
 }
 
 @media (min-width: 768px) {
-	.home {
+	main.home {
 		width: 700px;
 		flex-direction: column;
 	}
 }
 
 @media (min-width: 992px) {
-	.home {
+	main.home {
 		width: 900px;
 		flex-direction: row;
 	}
 }
 
 @media (min-width: 1200px) {
-	.home {
-		width: auto;
-	}
-}
-
-@media (max-width: 575.98px) {
-	.home {
-		width: auto;
-		flex-direction: column;
+	main.home {
+		width: 1150px;
 	}
 }
