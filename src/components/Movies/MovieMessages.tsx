@@ -1,7 +1,6 @@
 import styles from './Movie.module.css'
 
 interface Props {
-	isSure: boolean
 	errorCode?: number
 	isAdded: boolean
 	addedTitle?: string
@@ -11,7 +10,6 @@ interface Props {
 }
 
 const MovieMessages = ({
-	isSure,
 	errorCode,
 	isAdded,
 	addedTitle,
@@ -21,13 +19,7 @@ const MovieMessages = ({
 }: Props) => {
 	return (
 		<>
-			{isSure && (
-				<p className={styles.errorMessage}>
-					Are you sure? Changes will be lost.
-				</p>
-			)}
-
-			{errorCode && !isSure && wasFormChanged && (
+			{errorCode && wasFormChanged && (
 				<div className={styles.errorMessage}>
 					The movie with this title already exists.
 				</div>

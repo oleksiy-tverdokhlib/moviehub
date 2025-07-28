@@ -52,6 +52,7 @@ export const useAuthForm = ({ mode }: AuthModeProps) => {
 
 	useEffect(() => {
 		dispatch(setNoError())
+		setData(initialData)
 	}, [mode])
 
 	return { data, handleChange, handleSubmit }

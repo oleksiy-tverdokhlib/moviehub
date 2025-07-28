@@ -38,7 +38,7 @@ const MoviesList = ({ queryArgs, setSearchParams }: MoviesListProps) => {
 	}
 
 	useEffect(() => {
-		if (total && total <= 10) {
+		if ((total && total <= 10) || (total && list?.length === 0)) {
 			setSearchParams((prev) => {
 				return { ...prev, offset: 0 }
 			})
@@ -50,34 +50,25 @@ const MoviesList = ({ queryArgs, setSearchParams }: MoviesListProps) => {
 
 	return (
 		<section className={styles.content}>
-			{list?.length === 0 ? (
-				<strong className={styles.noMovies}>No movie with such params</strong>
-			) : (
-				condition && (
-					<>
-						<div>
-							<div className={styles.contentHeader}>
-								<h2>Movies:</h2>
-								<button onClick={toggleAddNewMovie}>add new movie </button>
-							</div>
+			<div>
+				<div className={styles.contentHeader}>
+					<h2>Movies:</h2>
+					<button onClick={toggleAddNewMovie}>add new movie </button>
+				</div>
 
-							<div className={styles.list}>
-								{list?.length === 0 && <h2>Movie not found...</h2>}
-								{list.map((movie: Movie) => (
-									<MovieItem key={movie.id} {...movie} />
-								))}
-							</div>
-						</div>
+				<div className={styles.list}>
+					{list?.length === 0 && <h2>Movie not found...</h2>}
+					{list?.map((movie: Movie) => (
+						<MovieItem key={movie.id} {...movie} />
+					))}
+				</div>
+			</div>
 
-						{total > MOVIES_PER_PAGES && (
-							<Pagination
-								setSearchParams={setSearchParams}
-								totalItems={total}
-							/>
-						)}
-					</>
-				)
-			)}
+			{condition
+				? total > MOVIES_PER_PAGES && (
+						<Pagination setSearchParams={setSearchParams} totalItems={total} />
+				  )
+				: null}
 		</section>
 	)
 }
