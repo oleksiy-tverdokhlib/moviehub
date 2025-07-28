@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import type { RootState } from '../../features/store'
 import { useAuthForm } from '../../hooks/useAuthForm'
-import type { AuthModeProps, IFormData } from '../../types/userTypes'
+import type { AuthModeProps, IFormData } from '../../interfaces/user'
 import TextInput from '../common/TextInput/TextInput'
 import styles from './Login&SignUp.module.css'
 
@@ -29,36 +29,41 @@ const AuthForm = ({ mode }: AuthModeProps) => {
 	const { error } = useSelector((state: RootState) => state.user)
 
 	return (
-		<div className={styles.loginContainer}>
+		<section
+			className={
+				mode === 'login' ? styles.loginContainer : styles.signupContainer
+			}
+		>
 			<form
 				onSubmit={(e) => handleSubmit(e, fields)}
-				className={styles.loginForm}
+				className={styles.authForm}
 			>
-				<h3>{mode === 'login' ? 'Sign In to MoviesHub' : 'Sign Up'}</h3>
+				<div className={styles.fields}>
+					<h3>{mode === 'login' ? 'Sign In to MoviesHub' : 'Sign Up'}</h3>
 
-				{error?.error && (
-					<div className={styles.errorMessage}>
-						<p>{error?.error.code}</p>
-						<p>Wrong field values. Try again</p>
-					</div>
-				)}
+					{error?.error && (
+						<div className={styles.errorMessage}>
+							<p>{error?.error.code}</p>
+							<p>Wrong field values. Try again</p>
+						</div>
+					)}
 
-				{fields.map(({ id, label, type }) => (
-					<TextInput
-						key={id}
-						id={id}
-						label={label}
-						type={type}
-						value={data[id] ?? ''}
-						onChange={handleChange}
-					/>
-				))}
-
+					{fields.map(({ id, label, type }) => (
+						<TextInput
+							key={id}
+							isAuthForm={true}
+							label={label}
+							type={type}
+							value={data[id] ?? ''}
+							onChange={handleChange}
+						/>
+					))}
+				</div>
 				<button type="submit" className={styles.submitBtn}>
 					{mode === 'login' ? 'Log In' : 'Sign Up'}
 				</button>
 			</form>
-		</div>
+		</section>
 	)
 }
 

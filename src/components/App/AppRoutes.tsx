@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
-import type { AuthStatus } from '../../types/moviesTypes'
-import { ROUTES } from '../../utils/constants'
+import type { AuthStatus } from '../../interfaces/movies'
+import { ROUTES } from '../../shared/constants'
 import Home from '../Home/Home'
 import AuthForm from '../Login&SignUp/AuthForm'
 import MovieDataForm from '../Movies/MovieDataForm'

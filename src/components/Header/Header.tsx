@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useAppDispatch } from '../../features/store'
 import { logout } from '../../features/user/userSlice'
-import type { AuthStatus } from '../../types/moviesTypes'
+import type { AuthStatus } from '../../interfaces/movies'
 import Icon from '../common/Icon/Icon'
 import styles from './Header.module.css'
-
 
 const Header = ({ isAuth }: AuthStatus) => {
 	const dispatch = useAppDispatch()
@@ -19,7 +18,9 @@ const Header = ({ isAuth }: AuthStatus) => {
 	return (
 		<header className={styles.header}>
 			<div className={styles.container}>
-				<Link to="/">MovieHub</Link>
+				<Link to="/" title="Main page">
+					<h2 className={styles.logo}>MovieHub</h2>
+				</Link>
 				<div className={styles.currentUser}>
 					{!isAuth && (
 						<>

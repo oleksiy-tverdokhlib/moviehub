@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import type { RadioFilterProps } from '../types/moviesTypes'
-import { ORDER_MODES, SEARCH_MODES, SORT_MODES } from '../utils/constants'
+import type { RadioFilterProps } from '../../interfaces/movies'
+import { ORDER_MODES, SEARCH_MODES, SORT_MODES } from '../../shared/constants'
 
 export const useRadioFilter = ({
 	mode,

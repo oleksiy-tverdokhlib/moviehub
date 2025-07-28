@@ -6,7 +6,7 @@ import type {
 	IFormData,
 	ILogin,
 	ISignUp,
-} from '../types/userTypes'
+} from '../interfaces/user'
 
 const initialData: IFormData = {
 	email: '',
@@ -49,7 +49,7 @@ export const useAuthForm = ({ mode }: AuthModeProps) => {
 		}
 		setData(initialData)
 	}
-	
+
 	useEffect(() => {
 		dispatch(setNoError())
 	}, [mode])

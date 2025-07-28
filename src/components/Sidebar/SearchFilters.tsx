@@ -1,27 +1,28 @@
-import { useRadioFilter } from '../../hooks/useRadioFilter'
-import type { RadioFilterProps } from '../../types/moviesTypes'
-import styles from './Home.module.css'
+import { useRadioFilter } from '../../hooks/sidebarFilters/useRadioFilter'
+import type { RadioFilterProps } from '../../interfaces/movies'
+import styles from './SideBar.module.css'
 
 const SearchFilters = ({
-	value,
-	onChange,
 	mode,
 	type,
-	setSearchParams,
+	value,
+	onChange,
 	setSearchInput,
+	setSearchParams,
 }: RadioFilterProps) => {
 	const { items, handleOnChange } = useRadioFilter({
-		value,
-		onChange,
 		mode,
 		type,
-		setSearchParams,
+		value,
+		onChange,
 		setSearchInput,
+		setSearchParams,
 	})
 
 	return (
 		<div role="radiogroup" aria-label={type} className={styles.searchModes}>
 			<span>{type}:</span>
+
 			{items.map((option) => (
 				<label key={option} className={styles.label}>
 					<input

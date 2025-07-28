@@ -13,6 +13,9 @@
 	align-items: center;
 	justify-content: space-between;
 }
+.logo {
+	color: darkviolet;
+}
 
 .logout {
 	display: flex;
@@ -43,4 +46,3 @@
 .logoutBtn:hover {
 	text-decoration: underline;
 }
-

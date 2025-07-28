@@ -9,16 +9,23 @@ import type {
 	MovieData,
 	MovieModeProps,
 	MoviesErrors,
-} from '../types/moviesTypes'
-import { handleMoviesFormErrors } from '../utils/common'
-import { ROUTES } from '../utils/constants'
+} from '../interfaces/movies'
+import {
+	handleActorsFieldError,
+	handleMoviesFormErrors,
+	handleSingleFieldError,
+	isEmptyData,
+	trimFormData,
+} from '../shared/validation'
+import { ROUTES } from '../shared/constants'
 
-const initialData: MovieData = {
-	title: 'Write your title',
-	year: 2000,
-	format: 'DVD',
+export const initialData: MovieData = {
+	title: '',
+	year: '',
+	format: '',
 	actors: [''],
 }
+
 const initialErrors: MoviesErrors = {
 	title: undefined,
 	year: undefined,
@@ -27,31 +34,36 @@ const initialErrors: MoviesErrors = {
 }
 
 export const useMovieForm = ({ mode }: MovieModeProps) => {
-	const navigate = useNavigate()
 	const { id } = useParams()
+	const navigate = useNavigate()
 
 	const [formData, setFormData] = useState<MovieData>(initialData)
 	const [formErrors, setFormErrors] = useState(initialErrors)
+	const [wasEdited, setWasEdited] = useState(false)
+	const [wasFormChanged, setWasFormChanged] = useState(false)
 
-	const [addNewMovie] = useAddNewMovieMutation()
-	const [updateMovie] = useUpdateMovieMutation()
+	const [addNewMovie, { data: addedMovieData }] = useAddNewMovieMutation()
+	const [updateMovie, { data: editedMovieData, isSuccess: isEdited }] =
+		useUpdateMovieMutation()
 
 	const {
 		data: existingMovie,
 		isSuccess,
 		isLoading,
-	} = useGetMovieByIdQuery(
-		{ id: id ?? '' },
-		{
-			skip: mode !== 'edit' || !id,
-		}
-	)
+	} = useGetMovieByIdQuery({ id: id ?? '' })
+
+	const [isSure, setIsSure] = useState(false)
+	const isAdded = addedMovieData?.status === 1
+	const isEditedSuccess = editedMovieData?.status === 1
+	const isMovieSuccess = (isAdded || isEditedSuccess) && wasEdited
+	const errorCode = addedMovieData?.error?.code
+	const isFormLocked = isAdded || wasEdited
 
 	useEffect(() => {
 		if (mode === 'edit' && isSuccess && existingMovie?.data) {
 			setFormData({
 				title: existingMovie.data.title,
-				year: existingMovie.data.year,
+				year: +existingMovie.data.year,
 				format: existingMovie.data.format,
 				actors: existingMovie.data.actors.map((a) => a.name),
 			})
@@ -59,15 +71,27 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 	}, [mode, isSuccess, existingMovie])
 
 	useEffect(() => {
-		setFormErrors(handleMoviesFormErrors(formData))
-	}, [formData])
+		if (isEdited) {
+			setWasEdited(true)
+		}
+		if (addedMovieData?.error?.code) {
+			setWasFormChanged(true)
+		}
+	}, [isEdited, addedMovieData])
+
+	useEffect(() => {
+		setIsSure(false)
+		setWasFormChanged(false)
+	}, [isAdded, isEditedSuccess, formData])
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = e.target
 		setFormData((prev) => ({
 			...prev,
-			[id]: id === 'year' ? Number(value) : value,
+			[id]: value,
 		}))
+		const error = handleSingleFieldError(id, value)
+		setFormErrors((prev) => ({ ...prev, [id]: error }))
 	}
 
 	const handleActorChange = (
@@ -77,6 +101,11 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		const updated = [...formData.actors]
 		updated[index] = e.target.value
 		setFormData((prev) => ({ ...prev, actors: updated }))
+
+		setFormErrors((prev) => ({
+			...prev,
+			actors: updated.map((_, i, arr) => handleActorsFieldError(i, arr)),
+		}))
 	}
 
 	const handleAddActor = () => {
@@ -87,6 +116,10 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		setFormData((prev) => ({
 			...prev,
 			actors: prev.actors.filter((_, i) => i !== index),
+		}))
+		setFormErrors((prev) => ({
+			...prev,
+			actors: prev.actors?.filter((_, i) => i !== index),
 		}))
 	}
 
@@ -101,25 +134,12 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 			return
 		}
 
-		const cleanedActors = formData.actors.filter((e) => e.trim() !== '')
+		const payload = trimFormData(formData)
 
-		const payload: MovieData = {
-			...formData,
-			actors: cleanedActors,
-		}
 		if (id && existingMovie?.data) {
-			const original = existingMovie.data
+			const unchanged = isEmptyData(formData, existingMovie)
 
-			const unchanged =
-				formData.title === original.title &&
-				formData.year === original.year &&
-				formData.format === original.format &&
-				JSON.stringify(formData.actors) ===
-					JSON.stringify(original.actors.map((a) => a.name))
-
-			if (unchanged) {
-				return
-			}
+			if (unchanged) return
 		}
 
 		if (mode === 'edit' && id) {
@@ -127,18 +147,47 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		} else {
 			addNewMovie(payload).unwrap()
 		}
+	}
 
-		navigate(ROUTES.HOME)
+	const isFormUntouchedOrSaved = () => {
+		if (mode === 'create') {
+			return isSure || isAdded
+		}
+		return isSure || isMovieSuccess || isEmptyData(formData, existingMovie)
+	}
+
+	const handleNavigate = () => {
+		if (isFormUntouchedOrSaved()) {
+			navigate(ROUTES.HOME)
+		} else {
+			setIsSure(true)
+		}
+	}
+
+	const handleEdit = () => {
+		setIsSure(false)
+		setWasEdited(false)
 	}
 
 	return {
+		isSure,
+		isAdded,
 		formData,
-		handleChange,
-		handleActorChange,
-		handleAddActor,
-		handleDeleteActor,
-		handleSubmit,
-		formErrors,
+		errorCode,
+		wasEdited,
 		isLoading,
+		formErrors,
+		isFormLocked,
+		existingMovie,
+		wasFormChanged,
+		addedMovieData,
+		isEditedSuccess,
+		handleEdit,
+		handleChange,
+		handleSubmit,
+		handleNavigate,
+		handleAddActor,
+		handleActorChange,
+		handleDeleteActor,
 	}
 }
