@@ -20,7 +20,6 @@ interface MoviesListProps {
 const MoviesList = ({ queryArgs, setSearchParams }: MoviesListProps) => {
 	const navigate = useNavigate()
 	const isAuth = useIsAuth()
-
 	if (!isAuth) return null
 
 	const {
@@ -32,6 +31,7 @@ const MoviesList = ({ queryArgs, setSearchParams }: MoviesListProps) => {
 
 	const total = moviesResponse?.meta?.total
 	const list = moviesResponse?.data
+	const condition = total && list
 
 	const toggleAddNewMovie = () => {
 		navigate(ROUTES.CREATE)
@@ -45,27 +45,38 @@ const MoviesList = ({ queryArgs, setSearchParams }: MoviesListProps) => {
 		}
 	}, [moviesResponse])
 
-	if (isLoading || !total || !list) return <Loader />
+	if (isLoading) return <Loader />
 	if (isError) return <ErrorElement error={error} />
 
 	return (
 		<section className={styles.content}>
-			<div>
-				<div className={styles.contentHeader}>
-					<h2>Movies:</h2>
-					<button onClick={toggleAddNewMovie}>add new movie </button>
-				</div>
+			{list?.length === 0 ? (
+				<strong className={styles.noMovies}>No movie with such params</strong>
+			) : (
+				condition && (
+					<>
+						<div>
+							<div className={styles.contentHeader}>
+								<h2>Movies:</h2>
+								<button onClick={toggleAddNewMovie}>add new movie </button>
+							</div>
 
-				<div className={styles.list}>
-					{list.length === 0 && <h2>Movie not found...</h2>}
-					{list.map((movie: Movie) => (
-						<MovieItem key={movie.id} {...movie} />
-					))}
-				</div>
-			</div>
+							<div className={styles.list}>
+								{list?.length === 0 && <h2>Movie not found...</h2>}
+								{list.map((movie: Movie) => (
+									<MovieItem key={movie.id} {...movie} />
+								))}
+							</div>
+						</div>
 
-			{total > MOVIES_PER_PAGES && (
-				<Pagination setSearchParams={setSearchParams} totalItems={total} />
+						{total > MOVIES_PER_PAGES && (
+							<Pagination
+								setSearchParams={setSearchParams}
+								totalItems={total}
+							/>
+						)}
+					</>
+				)
 			)}
 		</section>
 	)
