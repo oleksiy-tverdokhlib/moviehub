@@ -35,8 +35,9 @@ const validateYear = (year: string | number): string | undefined => {
 }
 
 const validateFormat = (format: string): string | undefined => {
-	if (!format) return 'Format is required'
-	if (!FORMAT.includes(format)) {
+	if (!format.length) return 'Format is required'
+	if (containsOnlySpaces(format)) return 'Title cannot be only spaces'
+	if (!FORMAT.includes(format.trim())) {
 		return `Format must be ${FORMAT.join(' or ')}`
 	}
 	return undefined
@@ -49,7 +50,6 @@ const validateActor = (actor: string, allActors: string[]): string => {
 	if (actor.trim().length < MIN_LENGTH)
 		return 'Actor name must be atleast 2 chars'
 
-	// Перевірка дублікатів
 	const nonEmptyActors = allActors.filter((a) => a !== '')
 	if (nonEmptyActors.filter((a) => a === actor).length > 1) {
 		return 'There is already such an actor'
@@ -96,7 +96,7 @@ export const handleSingleFieldError = (
 			return validateYear(value) || undefined
 
 		case 'format':
-			return value?.trim() ? validateFormat(value) : 'Format is required'
+			return value ? validateFormat(value) : ''
 
 		default:
 			return undefined
@@ -107,7 +107,11 @@ export const handleActorsFieldError = (
 	index: number,
 	array: string[]
 ): string => {
-	return validateActor(array[index], array)
+	if (array[index] === '') {
+		return ''
+	} else {
+		return validateActor(array[index], array)
+	}
 }
 
 export const isEmptyData = (
