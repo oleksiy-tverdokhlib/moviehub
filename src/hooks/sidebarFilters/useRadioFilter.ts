@@ -1,12 +1,10 @@
-import { useEffect } from 'react'
 import type { RadioFilterProps } from '../../interfaces/movies'
 import { ORDER_MODES, SEARCH_MODES, SORT_MODES } from '../../shared/constants'
 
 export const useRadioFilter = ({
 	mode,
-	value,
+	searchInput,
 	onChange,
-	setSearchInput,
 	setSearchParams,
 }: RadioFilterProps) => {
 	let items: readonly string[]
@@ -33,22 +31,16 @@ export const useRadioFilter = ({
 				...prev,
 				[mode]: option,
 			}))
-		}
-	}
-
-	useEffect(() => {
-		if (mode === 'search') {
-			const valuesToClear = items.filter((e) => e !== value)
+		} else if (mode === 'search') {
+			const valuesToClear = items.filter((e) => e !== option)
 			setSearchParams((prev) => ({
 				...prev,
 				[valuesToClear[0]]: '',
 				[valuesToClear[1]]: '',
+				[option]: searchInput,
 			}))
-			if (setSearchInput) {
-				setSearchInput('')
-			}
 		}
-	}, [value])
+	}
 
 	return { items, handleOnChange }
 }

@@ -45,7 +45,12 @@ const MoviesList = ({ queryArgs, setSearchParams }: MoviesListProps) => {
 		}
 	}, [moviesResponse])
 
-	if (isLoading) return <Loader />
+	if (isLoading)
+		return (
+			<div className={styles.content}>
+				<Loader />
+			</div>
+		)
 	if (isError) return <ErrorElement error={error} />
 
 	return (

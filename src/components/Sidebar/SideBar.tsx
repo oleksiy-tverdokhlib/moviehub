@@ -1,10 +1,10 @@
 import { useState, type Dispatch, type SetStateAction } from 'react'
 import type { SearchParams } from '../../interfaces/movies'
 import type { OrderMode, SearchMode } from '../../shared/constants'
-import styles from './SideBar.module.css'
 import MovieFileForm from './MovieFileForm'
 import SearchBar from './SearchBar'
 import SearchFilters from './SearchFilters'
+import styles from './SideBar.module.css'
 
 interface SidebarProps {
 	setSearchParams: Dispatch<SetStateAction<SearchParams>>
@@ -25,6 +25,7 @@ const Sidebar = ({ setSearchParams }: SidebarProps) => {
 				setSearchInput={setSearchInput}
 			/>
 			<SearchFilters
+				searchInput={searchInput}
 				value={selectedOption}
 				onChange={setSelectedOption}
 				mode={'search'}

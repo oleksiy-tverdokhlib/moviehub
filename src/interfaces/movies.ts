@@ -78,6 +78,7 @@ export interface SearchParams {
 }
 
 export interface RadioFilterProps {
+	searchInput?:string,
 	value: SearchMode
 	onChange: (value: SearchMode | OrderMode) => void
 	mode: 'search' | 'order' | 'sort'

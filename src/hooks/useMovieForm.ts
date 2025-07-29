@@ -10,6 +10,7 @@ import type {
 	MovieModeProps,
 	MoviesErrors,
 } from '../interfaces/movies'
+import { ROUTES } from '../shared/constants'
 import {
 	handleActorsFieldError,
 	handleMoviesFormErrors,
@@ -17,7 +18,6 @@ import {
 	isEmptyData,
 	trimFormData,
 } from '../shared/validation'
-import { ROUTES } from '../shared/constants'
 
 export const initialData: MovieData = {
 	title: '',
@@ -42,9 +42,12 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 	const [wasEdited, setWasEdited] = useState(false)
 	const [wasFormChanged, setWasFormChanged] = useState(false)
 
-	const [addNewMovie, { data: addedMovieData }] = useAddNewMovieMutation()
-	const [updateMovie, { data: editedMovieData, isSuccess: isEdited }] =
-		useUpdateMovieMutation()
+	const [addNewMovie, { data: addedMovieData, isLoading: isCreating }] =
+		useAddNewMovieMutation()
+	const [
+		updateMovie,
+		{ data: editedMovieData, isSuccess: isEdited, isLoading: isEditing },
+	] = useUpdateMovieMutation()
 
 	const {
 		data: existingMovie,
@@ -56,6 +59,11 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 	const isEditedSuccess = editedMovieData?.status === 1
 	const errorCode = addedMovieData?.error?.code
 	const isFormLocked = isAdded || wasEdited
+	const [goHome, setGoHome] = useState(false)
+
+	useEffect(() => {
+		setGoHome(false)
+	}, [formData, wasFormChanged, isFormLocked, isEditing, isCreating])
 
 	useEffect(() => {
 		if (mode === 'edit' && isSuccess && existingMovie?.data) {
@@ -146,20 +154,39 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		}
 	}
 
-	const handleNavigate = () => {
-		navigate(ROUTES.HOME)
-	}
-
 	const handleEdit = () => {
 		setWasEdited(false)
 	}
+	const handleGoHome = () => {
+		if (isEditing || isCreating) return
+		if (mode === 'create' && isFormLocked) {
+			navigate(ROUTES.HOME)
+			return
+		} else {
+			if (goHome) {
+				setGoHome(false)
+				navigate(ROUTES.HOME)
+			} else {
+				setGoHome(true)
+			}
+		}
+		if (mode === 'edit' && isEmptyData(formData, existingMovie)) {
+			navigate(ROUTES.HOME)
+			setGoHome(false)
+		} else {
+			setGoHome(true)
+		}
+	}
 
 	return {
+		goHome,
 		isAdded,
 		formData,
 		errorCode,
 		wasEdited,
 		isLoading,
+		isEditing,
+		isCreating,
 		formErrors,
 		isFormLocked,
 		existingMovie,
@@ -169,7 +196,7 @@ export const useMovieForm = ({ mode }: MovieModeProps) => {
 		handleEdit,
 		handleChange,
 		handleSubmit,
-		handleNavigate,
+		handleGoHome,
 		handleAddActor,
 		handleActorChange,
 		handleDeleteActor,

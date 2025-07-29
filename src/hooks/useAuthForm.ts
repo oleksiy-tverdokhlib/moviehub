@@ -45,7 +45,6 @@ export const useAuthForm = ({ mode }: AuthModeProps) => {
 			dispatch(createUser(data as ISignUp))
 		} else {
 			dispatch(loginUser(data as ILogin))
-			localStorage.setItem('userName', JSON.stringify(data.email))
 		}
 		setData(initialData)
 	}
