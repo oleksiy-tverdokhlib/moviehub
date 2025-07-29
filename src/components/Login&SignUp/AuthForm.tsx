@@ -39,7 +39,9 @@ const AuthForm = ({ mode }: AuthModeProps) => {
 				className={styles.authForm}
 			>
 				<div className={styles.fields}>
-					<h3>{mode === 'login' ? 'Sign In to MoviesHub' : 'Sign Up'}</h3>
+					<h3>
+						{mode === 'login' ? 'Sign In to MoviesHub' : 'Sign Up to MoviesHub'}
+					</h3>
 
 					{error?.error && (
 						<div className={styles.errorMessage}>

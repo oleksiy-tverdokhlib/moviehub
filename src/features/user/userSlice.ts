@@ -49,6 +49,7 @@ export const createUser = createAsyncThunk<
 			API_ENDPOINTS.signup,
 			payload
 		)
+		localStorage.setItem('userName', JSON.stringify(payload.email))
 		return response.data
 	} catch (err: any) {
 		const error: APIError = err.response?.data || {
@@ -69,6 +70,8 @@ export const loginUser = createAsyncThunk<
 			API_ENDPOINTS.signin,
 			payload
 		)
+		localStorage.setItem('userName', JSON.stringify(payload.email))
+
 		return response.data
 	} catch (err: any) {
 		const error: APIError = err.response?.data || {
@@ -113,6 +116,7 @@ export const userSlice = createSlice({
 				token: '',
 			}
 			localStorage.setItem('token', '')
+			localStorage.removeItem('userName')
 		},
 		login: (state) => {
 			const token = localStorage.getItem('token')

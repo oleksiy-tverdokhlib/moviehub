@@ -10,10 +10,13 @@ import MovieMessages from './MovieMessages'
 
 const MovieDataForm = ({ mode }: MovieModeProps) => {
 	const {
+		goHome,
 		isAdded,
 		formData,
 		errorCode,
 		wasEdited,
+		isEditing,
+		isCreating,
 		isLoading,
 		formErrors,
 		isFormLocked,
@@ -24,23 +27,26 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 		handleEdit,
 		handleChange,
 		handleSubmit,
-		handleNavigate,
+		handleGoHome,
 		handleAddActor,
 		handleActorChange,
 		handleDeleteActor,
 	} = useMovieForm({ mode })
 
-	if (isLoading) return <Loader />
+	if (isLoading) {
+		return <Loader />
+	}
 
 	return (
 		<div className={styles.container}>
 			<form className={styles.movieForm} onSubmit={handleSubmit}>
-				<div className={styles.return} onClick={handleNavigate}>
+				<div className={styles.return} onClick={handleGoHome}>
 					<Icon id="arrow-left" />
 					<span>Return</span>
 				</div>
 
 				<MovieMessages
+					goHome={goHome}
 					wasFormChanged={wasFormChanged}
 					errorCode={errorCode}
 					isAdded={isAdded}
@@ -86,12 +92,22 @@ const MovieDataForm = ({ mode }: MovieModeProps) => {
 				{!(isAdded || wasEdited) && (
 					<button
 						type="submit"
-						disabled={isAdded || isEmptyData(formData, existingMovie)}
+						disabled={
+							isAdded ||
+							isEmptyData(formData, existingMovie) ||
+							wasFormChanged ||
+							isEditing ||
+							isCreating
+						}
 					>
 						{mode === 'edit' ? 'Save' : 'Add Movie'}
 					</button>
 				)}
-				{wasEdited && <button onClick={handleEdit}>Edit</button>}
+				{wasEdited && (
+					<button onClick={handleEdit} disabled={isEditing || isCreating}>
+						Edit
+					</button>
+				)}
 			</form>
 		</div>
 	)
